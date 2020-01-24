@@ -1,0 +1,19 @@
+open GitBash
+
+cd Desktop (if you want SB folder on desktop)
+git clone https://github.com/dylpavao/SpookyBeats.git
+
+... do work ...
+
+When work is done ...
+
+if git bash is open on SpookyBeats
+git add .
+git commit -m "message"
+git push -u origin master
+
+if git bash is not open
+cd Desktop/SpookyBeats (if on desktop)
+
+to check position
+pwd
