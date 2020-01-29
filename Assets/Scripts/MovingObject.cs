@@ -9,7 +9,7 @@ public abstract class MovingObject : MonoBehaviour
     private BoxCollider2D boxCollider;
     private Rigidbody2D rb2D;
     private float inverseMoveTime;
-    private bool moving;
+    private bool moveable;
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -17,13 +17,18 @@ public abstract class MovingObject : MonoBehaviour
         boxCollider = GetComponent<BoxCollider2D>();
         rb2D = GetComponent<Rigidbody2D>();
         inverseMoveTime = 1f / moveTime;
-        moving = false;
+        moveable = true;
 
     }
 
-    protected bool IsMoving()
+    protected bool IsMoveable()
     {
-        return moving;
+        return moveable;
+    }
+
+    public void SetMoveable(bool moveable)
+    {
+        this.moveable = moveable;
     }
 
     protected bool Move(int xDir, int yDir)
@@ -46,7 +51,7 @@ public abstract class MovingObject : MonoBehaviour
 
     protected IEnumerator SmoothMovement(Vector3 end)
     {
-        moving = true;
+        moveable = false;
         float sqrRemainingDistance = (transform.position - end).sqrMagnitude;
 
         while (sqrRemainingDistance > float.Epsilon)
@@ -56,6 +61,6 @@ public abstract class MovingObject : MonoBehaviour
             sqrRemainingDistance = (transform.position - end).sqrMagnitude;
             yield return null;
         }
-        moving = false;
+        moveable = true;
     }
 }

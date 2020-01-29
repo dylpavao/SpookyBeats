@@ -10,6 +10,8 @@ public class Player : MovingObject
     private float currentMana;
     private string state;
 
+    private Animator animator;
+
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -18,8 +20,10 @@ public class Player : MovingObject
         maxMana = 10;
         currentMana = 1;
         state = null;
+        animator = GetComponent<Animator>(); // put in parent class?
         base.Start();
         DontDestroyOnLoad(gameObject);
+
     }
 
     // Update is called once per frame
@@ -43,7 +47,7 @@ public class Player : MovingObject
             //    state = action;
 
         }
-        else if (!IsMoving())
+        else if (IsMoveable())
         {
             int horizontal = 0;
             int vertical = 0;
@@ -51,7 +55,37 @@ public class Player : MovingObject
             vertical = (int)Input.GetAxisRaw("Vertical");
 
             if (horizontal != 0 || vertical != 0)
+            {
+                if (horizontal > 0)
+                {
+                    animator.SetBool("PlayerRight", true);
+                    animator.SetBool("PlayerFront", false);
+                    animator.SetBool("PlayerBack", false);
+                    animator.SetBool("PlayerLeft", false);
+                }
+                else if (horizontal < 0)
+                {
+                    animator.SetBool("PlayerLeft", true);
+                    animator.SetBool("PlayerRight", false);
+                    animator.SetBool("PlayerFront", false);
+                    animator.SetBool("PlayerBack", false);
+                }
+                if (vertical < 0)
+                {
+                    animator.SetBool("PlayerFront", true);
+                    animator.SetBool("PlayerRight", false);
+                    animator.SetBool("PlayerBack", false);
+                    animator.SetBool("PlayerLeft", false);
+                }
+                else if (vertical > 0)
+                {
+                    animator.SetBool("PlayerFront", false);
+                    animator.SetBool("PlayerRight", false);
+                    animator.SetBool("PlayerBack", true);
+                    animator.SetBool("PlayerLeft", false);
+                }
                 Move(horizontal, vertical);
+            }                
         }
     }
 
@@ -105,14 +139,19 @@ public class Player : MovingObject
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+
+        Debug.Log("Collisipon");
         if (collision.tag == "Enemy")
         {
             GameManager.instance.StartBattle();
         }
-        else if (collision.tag == "EnemyPortal")
+        else if (collision.tag == "CryptDoor")
         {
-            Debug.Log("Portal;");
-        }
+            Debug.Log("Loading Crypt...");
+            GameManager.instance.LoadCrypt();
+            //transform.position = new Vector3(0, 0, 0);
+            //GameObject.Find("SceneLoader").GetComponent<SceneLoader>().LoadScene("Crypt");            
+        }        
     }
 
     private void OnDestroy()

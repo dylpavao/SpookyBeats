@@ -31,17 +31,9 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
         inBattle = false;
 
-        //loadImage = GameObject.Find("LoadImage");
+        loadImage = GameObject.Find("LoadImage");
         //loadText = GameObject.Find("LoadText").GetComponent<Text>();
-        //loadImage.SetActive(false);        
-    }
-
-    void Start()
-    {
-        //IAnimationClipSource 
-        //bottomLeft = mainCamera.ViewportToWorldPoint(new Vector3(0f, 0f, mainCamera.nearClipPlane));
-        //topRight = mainCamera.ViewportToWorldPoint(new Vector3(1f, 1f, mainCamera.nearClipPlane));
-        //DamagePopup.Create(Vector3.zero, 100);
+        loadImage.SetActive(false);        
     }
 
     public static GameManager GetInstance()
@@ -69,6 +61,22 @@ public class GameManager : MonoBehaviour
         //sceneLoader.LoadScene("Battle");
     }
 
+    public void LoadCrypt()
+    {
+        //Stop player movement;
+        GameObject.Find("Player").GetComponent<Player>().SetMoveable(false);
+        loadImage.SetActive(true);
+        Invoke("RealLoadCrypt", 0.25f);
+    }
+
+    //NEED BETTER LOADING CONVENTION
+    private void RealLoadCrypt()
+    {
+        GameObject.Find("Player").transform.position = new Vector3(0, 0, 0); //
+        SceneLoader sceneLoader = GameObject.Find("SceneLoader").GetComponent<SceneLoader>();
+        sceneLoader.LoadScene("Crypt");
+        GameObject.Find("Player").GetComponent<Player>().SetMoveable(true);
+    }
 
 
     public bool InBattle()
