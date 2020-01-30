@@ -6,6 +6,8 @@ TagManager:
   tags:
   - CryptDoor
   - NPC
+  - OverworldDoor
+  - Enemy
   layers:
   - Default
   - TransparentFX

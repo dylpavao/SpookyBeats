@@ -8,4 +8,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Crypt.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/Overworld.unity
+    guid: 8f033d764a0fa544ea3b08d2ee360177
+  - enabled: 1
+    path: Assets/Scenes/Loading.unity
+    guid: 125914213614bad4e8c482e1eb2ac288
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 7a02d8627fdb812448442036f24300df
+  - enabled: 1
+    path: Assets/Scenes/Battle.unity
+    guid: 8d69cfbcb5ec61d4cb71ff39fdfd6583
   m_configObjects: {}
