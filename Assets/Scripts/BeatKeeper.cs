@@ -75,9 +75,9 @@ public class BeatKeeper : MonoBehaviour
         else if (!enacted && timeRunning >= graceUpper) // end of grace period
         {
             // enact moves
-            enacted = true;
-            player.EnactMove();
+            enacted = true;            
             enemy.EnactMove();
+            player.EnactMove();
         }
 
     }

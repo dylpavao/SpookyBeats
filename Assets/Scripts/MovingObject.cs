@@ -11,6 +11,7 @@ public abstract class MovingObject : MonoBehaviour
     private bool moveable;
 
     private Coroutine movement;
+    //private IEnumerator test;
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -23,8 +24,6 @@ public abstract class MovingObject : MonoBehaviour
 
     protected bool Move(int xDir, int yDir) // may not need bool
     {        
-
-
         Vector2 start = transform.position;
         Vector2 end = start + new Vector2(xDir, yDir);
         
@@ -33,12 +32,11 @@ public abstract class MovingObject : MonoBehaviour
         boxCollider.enabled = true;
 
         if (hit.transform == null)
-        {
-
+        {            
             movement = StartCoroutine(SmoothMovement(end));
             return true;
         }
-
+        
         return false;
     }
 
@@ -54,8 +52,9 @@ public abstract class MovingObject : MonoBehaviour
             sqrRemainingDistance = (transform.position - end).sqrMagnitude;
             yield return null;
         }
-        moveable = true;
+        moveable = true;        
     }
+
 
     protected bool IsMoveable()
     {
@@ -63,13 +62,13 @@ public abstract class MovingObject : MonoBehaviour
     }   
 
     public void EnableMovement()
-    {
+    {        
         moveable = true;
     }
 
     protected void DisableMovement()
     {
-        Debug.Log("Stopped routines");
+        //Debug.Log("Stopped routines");
         StopCoroutine(movement);
         moveable = false; 
     }

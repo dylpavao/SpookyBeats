@@ -13,14 +13,14 @@ public class Enemy : MovingObject
     private string state;
     private readonly string[] states = new string[] { "attack", "charge", "block", "heal" };
 
-    private bool firstUpdate = true;
+    private bool firstUpdate = true; 
 
     // Start is called before the first frame update
     protected override void Start()
     {
-        maxHealth = 10;
+        maxHealth = 5;
         currentHealth = maxHealth;
-        maxMana = 10;
+        maxMana = 5;
         currentMana = 1;
         state = null;
         range = 3;        
@@ -69,7 +69,7 @@ public class Enemy : MovingObject
         }
         else
         {
-            if (firstUpdate)            //bandaid solution
+            if (firstUpdate)            //bandaid solution??
             {
                 UpdateHealthBar();
                 UpdateManaBar();
@@ -80,12 +80,14 @@ public class Enemy : MovingObject
 
     public void ChooseMove()
     {
-        int move = Random.Range(0, states.Length); // make array and choose using rand index                
+        int move = Random.Range(0, states.Length);              
         state = states[move];
     }
 
     public void EnactMove()
     {
+        //create enums for states
+
         if (state == "attack" && currentMana > 0)
         {
             currentMana--;
@@ -126,9 +128,17 @@ public class Enemy : MovingObject
     public void TakeDamage(int dmg)
     {
         if (state != "block")
-        {
+        {                 
             currentHealth -= dmg;
             UpdateHealthBar();
+
+            if (currentHealth == 0)
+            {
+                //player wins
+                Player.GetInstance().SetEnemyDefeat(true);
+                Loader.playerPos = new Vector3(6.5f, -12.5f, 0);
+                Loader.Load(Loader.Scene.Overworld);
+            }
         }
     }
 }

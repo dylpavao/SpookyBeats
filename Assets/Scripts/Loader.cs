@@ -7,7 +7,7 @@ public static class Loader
 
     public enum Scene
     {
-        Overworld, Loading, Crypt, Battle, 
+        Overworld, Loading, Crypt, Battle, GameOver
     }
 
     private static Action onLoaderCallback;
