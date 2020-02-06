@@ -15,8 +15,7 @@ public class Player : MovingObject
     private Vector3 overworldPosition;
     private bool firstUpdate = true;
     private bool hasCrown = false;
-    private bool enemyDefeated = false;
-    private string direction; // create enum
+    private bool enemyDefeated = false;    
 
     private static Player instance;
 
@@ -71,9 +70,10 @@ public class Player : MovingObject
                 state = action;
 
         }
-        else if (IsMoveable())
+        else if (IsMoveable()) // change this to set new destination if moving already
         {
-            //Debug.Log(IsMoveable().ToString());
+            //Debug.Log(IsMoveable().ToString());            
+
             int horizontal = 0;
             int vertical = 0;
             horizontal = (int)Input.GetAxisRaw("Horizontal");
@@ -85,23 +85,16 @@ public class Player : MovingObject
             if (horizontal != 0 || vertical != 0)
             {
                 GameObject.Find("UI_Assistant").GetComponent<UI_Assistant>().DeactivateMessage();
-                if (horizontal > 0)
+
+                if (IsMoving() && SameDirection(horizontal, vertical))
                 {
-                    SetDirection("right");                    
+                    UpdateDestination(horizontal, vertical);
                 }
-                else if (horizontal < 0)
+                else if (!IsMoving())
                 {
-                    SetDirection("left");
-                }
-                if (vertical < 0)
-                {
-                    SetDirection("front");
-                }
-                else if (vertical > 0)
-                {
-                    SetDirection("back"); //change to up?
-                }
-                Move(horizontal, vertical);
+                    SetDirection(horizontal, vertical);
+                    Move(horizontal, vertical);
+                }                
             }
 
             if (Input.GetKeyDown(KeyCode.Space))
@@ -111,13 +104,35 @@ public class Player : MovingObject
         }
     }
 
+    private bool SameDirection(int horizontal, int vertical)
+    {
+        if (dir == Direction.Right && horizontal == 1)
+        {
+            return true; 
+        }
+        else if (dir == Direction.Left && horizontal == -1)
+        {
+            return true;
+        }
+        else if (dir == Direction.Up && vertical == 1)
+        {
+            return true;
+        }
+        else if (dir == Direction.Down && vertical == -1)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     //temporary
     private void SearchForInteractiveObject()
     {
         //need to make dynamic
         if(SceneManager.GetActiveScene().name == "Overworld")
         {
-            if(transform.position.x == 4.5 && transform.position.y == -1.5 && direction == "right")
+            if(transform.position.x == 4.5 && transform.position.y == -1.5 && dir == Direction.Right)
             {
                 GameObject.Find("UI_Assistant").GetComponent<UI_Assistant>().SetMessage("Beware of the Ghost Gang!");
             }
@@ -125,7 +140,7 @@ public class Player : MovingObject
         else if(SceneManager.GetActiveScene().name == "Crypt")
         {
             //Debug.Log
-            if((transform.position.x == 3.5 || transform.position.x == 4.5) && transform.position.y == 0.5 && direction == "back")
+            if((transform.position.x == 3.5 || transform.position.x == 4.5) && transform.position.y == 0.5 && dir == Direction.Up)
             {
                 if (hasCrown)
                 {
@@ -139,32 +154,35 @@ public class Player : MovingObject
         }        
     }
 
-    private void SetDirection(string dir)
-    {
-        direction = dir;
-        if(direction == "right")
+    private void SetDirection(int horizontal, int vertical)
+    {        
+        if (horizontal == 1)
         {
-            animator.SetBool("PlayerRight", true); // abstract
+            dir = Direction.Right;
+            animator.SetBool("PlayerRight", true);
             animator.SetBool("PlayerFront", false);
             animator.SetBool("PlayerBack", false);
             animator.SetBool("PlayerLeft", false);
         }
-        else if (direction == "left")
+        else if (horizontal == -1)
         {
+            dir = Direction.Left;
             animator.SetBool("PlayerLeft", true);
             animator.SetBool("PlayerRight", false);
             animator.SetBool("PlayerFront", false);
             animator.SetBool("PlayerBack", false);
         }
-        else if(direction == "front")
+        else if(vertical == -1)
         {
-            animator.SetBool("PlayerFront", true);
+            dir = Direction.Down;
+            animator.SetBool("PlayerFront", true); // change front to down & back to up
             animator.SetBool("PlayerRight", false);
             animator.SetBool("PlayerBack", false);
             animator.SetBool("PlayerLeft", false);
         }
-        else if(direction == "back") //change to up
+        else if(vertical == 1) //change to up
         {
+            dir = Direction.Up;
             animator.SetBool("PlayerFront", false);
             animator.SetBool("PlayerRight", false);
             animator.SetBool("PlayerBack", true);
@@ -235,7 +253,7 @@ public class Player : MovingObject
         if (collision.tag == "Enemy")
         {
             DisableMovement();
-            SetDirection("right");
+            SetDirection(1,0);
             overworldPosition = new Vector3(6.5f, -12.5f, 0);
             Loader.playerPos = new Vector3(-1.5f, 2.5f, 0); // combine with load?
             Loader.Load(Loader.Scene.Battle);

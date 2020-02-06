@@ -9,8 +9,18 @@ public abstract class MovingObject : MonoBehaviour
     private Rigidbody2D rb2D;
     private float inverseMoveTime;        
     private bool moveable;
-
+    private bool moving;
+    private Vector3 destination;
+    private float sqrRemainingDist = 0;    
     private Coroutine movement;
+
+    public Direction dir;
+
+    public enum Direction
+    {
+        Up, Down, Left, Right, 
+    }
+
     //private IEnumerator test;
 
     // Start is called before the first frame update
@@ -23,38 +33,56 @@ public abstract class MovingObject : MonoBehaviour
     }
 
     protected bool Move(int xDir, int yDir) // may not need bool
-    {        
-        Vector2 start = transform.position;
-        Vector2 end = start + new Vector2(xDir, yDir);
-        
-        boxCollider.enabled = false;
-        RaycastHit2D hit = Physics2D.Linecast(start, end, blockingLayer);
-        boxCollider.enabled = true;
-
-        if (hit.transform == null)
-        {            
-            movement = StartCoroutine(SmoothMovement(end));
+    {                   
+        if (!LayerCollision(xDir, yDir))
+        {
+            destination = transform.position + new Vector3(xDir, yDir);
+            //Debug.Log(destination.ToString());
+            movement = StartCoroutine(SmoothMovement());            
             return true;
         }
         
         return false;
     }
 
-    protected IEnumerator SmoothMovement(Vector3 end)
-    {        
-        moveable = false; 
-        float sqrRemainingDistance = (transform.position - end).sqrMagnitude;
+    protected bool LayerCollision(int xDir, int yDir)
+    {
+        Vector3 start = transform.position;
+        Vector3 end = start + new Vector3(xDir, yDir);
 
-        while (sqrRemainingDistance > float.Epsilon)
-        {                        
-            Vector3 newPosition = Vector3.MoveTowards(rb2D.position, end, inverseMoveTime * Time.deltaTime);
-            rb2D.MovePosition(newPosition);
-            sqrRemainingDistance = (transform.position - end).sqrMagnitude;
-            yield return null;
-        }
-        moveable = true;        
+        boxCollider.enabled = false;
+        RaycastHit2D hit = Physics2D.Linecast(start, end, blockingLayer);
+        boxCollider.enabled = true;
+
+        return hit.transform != null;
     }
 
+    protected IEnumerator SmoothMovement()
+    {        
+        moving = true; 
+        sqrRemainingDist = (transform.position - destination).sqrMagnitude;
+
+        while (sqrRemainingDist > float.Epsilon)
+        {            
+            Vector3 newPosition = Vector3.MoveTowards(rb2D.position, destination, inverseMoveTime * Time.deltaTime);
+            rb2D.MovePosition(newPosition);
+            sqrRemainingDist = (transform.position - destination).sqrMagnitude;
+            yield return null;
+        }
+        moving = false;
+        //Debug.Log(transform.position.ToString());
+    }
+
+    protected void UpdateDestination(int xDir, int yDir)
+    {
+        if (sqrRemainingDist < 0.1 && !LayerCollision(xDir, yDir))
+            destination = destination + new Vector3(xDir, yDir);
+    }
+
+    protected bool IsMoving()
+    {
+        return moving;
+    }
 
     protected bool IsMoveable()
     {
@@ -62,7 +90,7 @@ public abstract class MovingObject : MonoBehaviour
     }   
 
     public void EnableMovement()
-    {        
+    {                
         moveable = true;
     }
 
@@ -70,6 +98,7 @@ public abstract class MovingObject : MonoBehaviour
     {
         //Debug.Log("Stopped routines");
         StopCoroutine(movement);
-        moveable = false; 
+        moveable = false;
+        moving = false;
     }
 }
