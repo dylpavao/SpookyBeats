@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
         }        
 
         instance = this;
-        inMainMenu = false;
+        inMainMenu = true;
         DontDestroyOnLoad(gameObject);
         Time.timeScale = 1f;
 

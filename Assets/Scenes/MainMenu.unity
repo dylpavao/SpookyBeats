@@ -354,6 +354,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5413421427230654009, guid: 1ae63489da073b145b75c00dfcef4127,
+        type: 3}
+      propertyPath: moveTime
+      value: 0.15
+      objectReference: {fileID: 0}
     - target: {fileID: 6953389248075899535, guid: 1ae63489da073b145b75c00dfcef4127,
         type: 3}
       propertyPath: m_Name
@@ -508,7 +513,7 @@ RectTransform:
   m_Children:
   - {fileID: 1939411221}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -579,7 +584,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1745908675
 GameObject:
@@ -662,7 +667,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1939411220
 GameObject:

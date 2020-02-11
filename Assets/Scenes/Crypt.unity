@@ -944,9 +944,12 @@ MonoBehaviour:
     - "\u2026 I see. You need an instrument to take on the Ghost Gang and retrieve
       your guitar. Not many instruments remain here after that darn Gang looted the
       place"
+    - There is this measly Kazoo, however I will hand it over once you can find my
+      crown.
   dialogue2:
     sentences:
-    - Thanks for finding my crown
+    - Thank you for finding my crown, I have unlocked the gate for you.
+    - Now go stop the Ghost Gang!
 --- !u!1 &729961300
 GameObject:
   m_ObjectHideFlags: 0
@@ -1121,6 +1124,36 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2867865039318515189, guid: fb7da0a53f4df644499dda41b8bbad14,
+        type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2867865039318515189, guid: fb7da0a53f4df644499dda41b8bbad14,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 19293012}
+    - target: {fileID: 2867865040605592452, guid: fb7da0a53f4df644499dda41b8bbad14,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2867865040556658894, guid: fb7da0a53f4df644499dda41b8bbad14,
+        type: 3}
+      propertyPath: m_Text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2867865040829586832, guid: fb7da0a53f4df644499dda41b8bbad14,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6961026477603852289, guid: fb7da0a53f4df644499dda41b8bbad14,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -249.99997
+      objectReference: {fileID: 0}
     - target: {fileID: 5140362804005682349, guid: fb7da0a53f4df644499dda41b8bbad14,
         type: 3}
       propertyPath: m_Name
@@ -1237,36 +1270,6 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5140362803770833252, guid: fb7da0a53f4df644499dda41b8bbad14,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2867865039318515189, guid: fb7da0a53f4df644499dda41b8bbad14,
-        type: 3}
-      propertyPath: m_RenderMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2867865039318515189, guid: fb7da0a53f4df644499dda41b8bbad14,
-        type: 3}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 19293012}
-    - target: {fileID: 6961026477603852289, guid: fb7da0a53f4df644499dda41b8bbad14,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -250
-      objectReference: {fileID: 0}
-    - target: {fileID: 2867865040605592452, guid: fb7da0a53f4df644499dda41b8bbad14,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2867865040556658894, guid: fb7da0a53f4df644499dda41b8bbad14,
-        type: 3}
-      propertyPath: m_Text
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2867865040829586832, guid: fb7da0a53f4df644499dda41b8bbad14,
         type: 3}
       propertyPath: m_IsActive
       value: 0
