@@ -10,6 +10,7 @@ public abstract class MovingObject : MonoBehaviour
     private float inverseMoveTime;        
     private bool moveable;
     private bool moving;
+    private Vector3 lastPosition;
     private Vector3 destination;
     private float sqrRemainingDist = 0;    
     private Coroutine movement;
@@ -36,8 +37,8 @@ public abstract class MovingObject : MonoBehaviour
     {                   
         if (!LayerCollision(xDir, yDir))
         {
-            destination = transform.position + new Vector3(xDir, yDir);
-            //Debug.Log(destination.ToString());
+            lastPosition = transform.position;
+            destination = transform.position + new Vector3(xDir, yDir);           
             movement = StartCoroutine(SmoothMovement());            
             return true;
         }
@@ -67,16 +68,18 @@ public abstract class MovingObject : MonoBehaviour
             Vector3 newPosition = Vector3.MoveTowards(rb2D.position, destination, inverseMoveTime * Time.deltaTime);
             rb2D.MovePosition(newPosition);
             sqrRemainingDist = (transform.position - destination).sqrMagnitude;
-            yield return null;
+            yield return null; //waits 1 frame
         }
-        moving = false;
-        //Debug.Log(transform.position.ToString());
+        moving = false;        
     }
 
     protected void UpdateDestination(int xDir, int yDir)
     {
         if (sqrRemainingDist < 0.1 && !LayerCollision(xDir, yDir))
+        {
+            lastPosition = destination;
             destination = destination + new Vector3(xDir, yDir);
+        }            
     }
 
     protected bool IsMoving()
@@ -89,15 +92,21 @@ public abstract class MovingObject : MonoBehaviour
         return moveable;
     }   
 
+    public Vector3 LastPosition()
+    {
+        return lastPosition;
+    }
+
     public void EnableMovement()
     {                
         moveable = true;
     }
 
-    protected void DisableMovement()
-    {
-        //Debug.Log("Stopped routines");
-        StopCoroutine(movement);
+    protected void DisableMovement(bool stopCoroutine)
+    {        
+        if(stopCoroutine)
+            StopCoroutine(movement);
+
         moveable = false;
         moving = false;
     }

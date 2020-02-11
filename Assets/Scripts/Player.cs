@@ -10,12 +10,14 @@ public class Player : MovingObject
     private float maxHealth;
     private float maxMana;
     private float currentMana;
-    private string state;    
-    private Animator animator;
+    private string state;
+    private bool firstUpdate = true; //temp?    
+    private Animator animator;   
+    private Inventory inventory;
+    private GameObject currentInterObj;
+    private InteractiveObject currentInterObjScript;
+
     private Vector3 overworldPosition;
-    private bool firstUpdate = true;
-    private bool hasCrown = false;
-    private bool enemyDefeated = false;    
 
     private static Player instance;
 
@@ -33,9 +35,11 @@ public class Player : MovingObject
         maxHealth = 5;
         currentHealth = maxHealth;
         maxMana = 5;
-        currentMana = 1;
+        currentMana = 0;
         state = null;        
         animator = GetComponent<Animator>(); // put in parent class?
+        inventory = new Inventory();
+        //GameObject.Find("UI_Assistant").GetComponent<UI_Assistant>().SetInventory(inventory); //change UI_Assistant access
         base.Start();        
 
         DontDestroyOnLoad(gameObject);
@@ -54,25 +58,36 @@ public class Player : MovingObject
                 firstUpdate = false;
             }
 
-            string action = null;
+            if (Input.GetKeyDown(KeyCode.Space) && FindObjectOfType<UI_Assistant>().InDialogue())
+            {
+                bool endOfDialogue = GameObject.Find("UI_Assistant").GetComponent<UI_Assistant>().DisplayNextSentence();
 
-            if (Input.GetKeyDown(KeyCode.Q))
-                action = "attack";
-            else if (Input.GetKeyDown(KeyCode.W))
-                action = "charge";
-            else if (Input.GetKeyDown(KeyCode.E))
-                action = "block";
-            else if (Input.GetKeyDown(KeyCode.R))
-                action = "heal";
+                if (endOfDialogue)
+                {
+                    FindObjectOfType<BeatKeeper>().SetRunning(true);
+                }
+            }
+            else
+            {
+                string action = null;
+
+                if (Input.GetKeyDown(KeyCode.D))
+                    action = "attack";
+                else if (Input.GetKeyDown(KeyCode.W))
+                    action = "charge";
+                else if (Input.GetKeyDown(KeyCode.S))
+                    action = "block";
+                else if (Input.GetKeyDown(KeyCode.A))
+                    action = "heal";
 
 
-            if (action != null && GameObject.Find("BeatKeeper").GetComponent<BeatKeeper>().HitBeat())
-                state = action;
+                if (action != null && FindObjectOfType<BeatKeeper>().HitBeat())
+                    state = action;
+            }           
 
         }
-        else if (IsMoveable()) // change this to set new destination if moving already
-        {
-            //Debug.Log(IsMoveable().ToString());            
+        else
+        {                     
 
             int horizontal = 0;
             int vertical = 0;
@@ -82,10 +97,8 @@ public class Player : MovingObject
             if(vertical != 0)            
                 horizontal = 0;            
 
-            if (horizontal != 0 || vertical != 0)
-            {
-                GameObject.Find("UI_Assistant").GetComponent<UI_Assistant>().DeactivateMessage();
-
+            if ((horizontal != 0 || vertical != 0) && IsMoveable())
+            {                
                 if (IsMoving() && SameDirection(horizontal, vertical))
                 {
                     UpdateDestination(horizontal, vertical);
@@ -94,15 +107,35 @@ public class Player : MovingObject
                 {
                     SetDirection(horizontal, vertical);
                     Move(horizontal, vertical);
-                }                
+                }
+                currentInterObj = null;
+                currentInterObjScript = null;
+               
             }
 
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                SearchForInteractiveObject();                
+            if (Input.GetKeyDown(KeyCode.Space) && currentInterObj != null)
+            {                
+                if (FindObjectOfType<UI_Assistant>().InDialogue())
+                {
+                    bool endOfDialogue = GameObject.Find("UI_Assistant").GetComponent<UI_Assistant>().DisplayNextSentence();
+
+                    if (endOfDialogue && currentInterObjScript.IsItem())
+                    {
+                        inventory.AddItem(currentInterObjScript.GetItem());
+                        Destroy(currentInterObj);
+                    }
+                }
+                else
+                {                    
+                    if (currentInterObjScript.NeedsItem() && inventory.HasItem(currentInterObjScript.NeededItem()))
+                    {
+                        currentInterObjScript.Unlock();                        
+                    }                    
+                    currentInterObjScript.TriggerDialogue();
+                }                
             }            
         }
-    }
+    }    
 
     private bool SameDirection(int horizontal, int vertical)
     {
@@ -124,34 +157,6 @@ public class Player : MovingObject
         }
 
         return false;
-    }
-
-    //temporary
-    private void SearchForInteractiveObject()
-    {
-        //need to make dynamic
-        if(SceneManager.GetActiveScene().name == "Overworld")
-        {
-            if(transform.position.x == 4.5 && transform.position.y == -1.5 && dir == Direction.Right)
-            {
-                GameObject.Find("UI_Assistant").GetComponent<UI_Assistant>().SetMessage("Beware of the Ghost Gang!");
-            }
-        }
-        else if(SceneManager.GetActiveScene().name == "Crypt")
-        {
-            //Debug.Log
-            if((transform.position.x == 3.5 || transform.position.x == 4.5) && transform.position.y == 0.5 && dir == Direction.Up)
-            {
-                if (hasCrown)
-                {
-                    GameObject.Find("UI_Assistant").GetComponent<UI_Assistant>().SetMessage("Thank you Doug, now go stop the Ghost Gang!");
-                }
-                else
-                {
-                    GameObject.Find("UI_Assistant").GetComponent<UI_Assistant>().SetMessage("I seem to be missing my crown...");
-                }                
-            }            
-        }        
     }
 
     private void SetDirection(int horizontal, int vertical)
@@ -211,18 +216,16 @@ public class Player : MovingObject
             UpdateHealthBar();
         }
     }
-
-    //Call at start of battle
+    
     private void UpdateManaBar()
     {
-        GameObject.Find("PlayerManaNumbers").GetComponent<TextMeshPro>().SetText(currentMana + " / " + maxMana);
+        GameObject.Find("PlayerManaNumbers").GetComponent<TextMeshPro>().SetText(currentMana.ToString());
         GameObject.Find("PlayerManaBar").GetComponent<HealthBar>().SetSize(currentMana / maxMana);
     }
 
-    //Call at start of battle
     private void UpdateHealthBar()
     {
-        GameObject.Find("PlayerHealthNumbers").GetComponent<TextMeshPro>().SetText(currentHealth + " / " + maxHealth);
+        GameObject.Find("PlayerHealthNumbers").GetComponent<TextMeshPro>().SetText(currentHealth.ToString());
         GameObject.Find("PlayerHealthBar").GetComponent<HealthBar>().SetSize(currentHealth / maxHealth);
     }
 
@@ -235,66 +238,62 @@ public class Player : MovingObject
 
             if (currentHealth == 0)
             {
-                //game over
-                //Loader.playerPos = new Vector3(-1.5f, -9.5f, 0);
-                DisableMovement();
-                Loader.Load(Loader.Scene.GameOver);
+                //game over                
+                DisableMovement(true);
+                Loader.Load(SceneName.GameOver, new Vector3(100,100,-100));
             }
         }
-    }
-
-    public void ResetState()
-    {
-        state = null;
-    }
+    }    
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Enemy")
         {
-            DisableMovement();
+            DisableMovement(true);
             SetDirection(1,0);
-            overworldPosition = new Vector3(6.5f, -12.5f, 0);
-            Loader.playerPos = new Vector3(-1.5f, 2.5f, 0); // combine with load?
-            Loader.Load(Loader.Scene.Battle);
+            overworldPosition = LastPosition();
+            Loader.Load(SceneName.Battle, new Vector3(-1.5f, 4.5f, 0));            
         }
-        else if (collision.tag == "CryptDoor")
+        else if (collision.tag == "Door")
         {
-            DisableMovement();
-            overworldPosition = new Vector3(5.5f, 2.5f, 0);
-            Loader.playerPos = new Vector3(0.5f, 0.5f, 0); // combine with load?
-            Loader.Load(Loader.Scene.Crypt);                                    
-        }
-        else if (collision.tag == "OverworldDoor")
+            DisableMovement(true);
+            Door door = collision.gameObject.GetComponent<Door>();
+
+            if (door.GetSceneName() == SceneName.Overworld)
+                door.SetPlayerStartingPos(overworldPosition);
+            else
+                overworldPosition = LastPosition();
+
+            Loader.Load(door.GetSceneName(), door.GetPlayerStartingPos());                                           
+        }          
+        else if (collision.tag == "Interactable")
         {
-            DisableMovement();
-            Loader.playerPos = overworldPosition;
-            Loader.Load(Loader.Scene.Overworld);                        
-        }
-        else if (collision.tag == "Item")
-        {
-            hasCrown = true;
-            Destroy(GameObject.Find("Crown"));
-            GameObject.Find("UI_Assistant").GetComponent<UI_Assistant>().SetMessage("Obtained a Crown");
-            //Stop();
+            //Debug.Log(collision.name);
+            currentInterObj = collision.gameObject;
+            currentInterObjScript = currentInterObj.GetComponent<InteractiveObject>();
         }
     }    
 
-    //temp
-    public void SetEnemyDefeat(bool ed)
+    public void SetMoveable(bool moveable)
     {
-        enemyDefeated = ed;
+        if (moveable)
+        {
+            EnableMovement();
+        }
+        else
+        {
+            DisableMovement(false);
+        }
+    }    
+
+    public Vector3 OverworldPosition()
+    {
+        return overworldPosition;
     }
 
-    //temp
-    public bool DefeatedEnemy()
+    public void ResetState()
     {
-        return enemyDefeated;
-    }
-
-    public bool HasCrown()
-    {
-        return hasCrown;
+        state = null;
     }
 
     public static Player GetInstance()
@@ -304,6 +303,6 @@ public class Player : MovingObject
 
     private void OnDestroy()
     {
-        Debug.Log("Player Destroyed");
+        //Debug.Log("Player Destroyed");
     }
 }

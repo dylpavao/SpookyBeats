@@ -4,11 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - CryptDoor
-  - NPC
-  - OverworldDoor
   - Enemy
-  - Item
+  - Interactable
+  - Door
   layers:
   - Default
   - TransparentFX

@@ -19,7 +19,7 @@ public class Beat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (active)
+        if (active && FindObjectOfType<BeatKeeper>().IsRunning())
         {
             if (side == "left")
             {

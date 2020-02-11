@@ -2,25 +2,26 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public static class Loader 
+public enum SceneName
 {
+    Overworld, Loading, Crypt, Battle, GameOver
+}
 
-    public enum Scene
-    {
-        Overworld, Loading, Crypt, Battle, GameOver
-    }
+public static class Loader 
+{    
 
-    private static Action onLoaderCallback;
-    public static Vector3 playerPos;
+    private static Action onLoaderCallback;    
 
-    public static void Load(Scene scene)
+    public static void Load(SceneName scene, Vector3 newPlayerPos)
     {
         //Loader.playerPos = playerPos;
         onLoaderCallback = () =>
         {
-            SceneManager.LoadScene(scene.ToString());            
+            Player.GetInstance().transform.position = newPlayerPos;
+            SceneManager.LoadScene(scene.ToString());
+            Player.GetInstance().GetComponent<MovingObject>().EnableMovement();
         };
-        SceneManager.LoadScene(Scene.Loading.ToString());
+        SceneManager.LoadScene(SceneName.Loading.ToString());
     }
 
     public static void LoaderCallback()
@@ -28,8 +29,7 @@ public static class Loader
         if(onLoaderCallback != null)
         {
             onLoaderCallback();
-            onLoaderCallback = null;
-            Player.GetInstance().GetComponent<MovingObject>().EnableMovement();
+            onLoaderCallback = null;            
         }
     }
     

@@ -10,8 +10,7 @@ public class LoaderCallback : MonoBehaviour
     {
         if (firstUpdate)
         {
-            firstUpdate = false;
-            Player.GetInstance().transform.position = Loader.playerPos;            
+            firstUpdate = false;                       
             Loader.LoaderCallback();
         }
     }

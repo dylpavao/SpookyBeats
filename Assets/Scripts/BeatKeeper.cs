@@ -18,6 +18,7 @@ public class BeatKeeper : MonoBehaviour
     private Enemy enemy;
     private Player player;
     private Queue<Beat[]> beats;
+    private bool running;
 
 
     private void Start()
@@ -33,6 +34,7 @@ public class BeatKeeper : MonoBehaviour
         beatHit = false;
         playedBeat = false;
         enacted = false;
+        running = false;
         //Debug.Log("TBB: "+timeBetweenBeats+" GP: "+gracePeriod+" T1:"+graceLower+" T2: "+graceUpper);
 
         //Setup Starting Beats On Screen (6 pairs of beats around target)
@@ -52,34 +54,36 @@ public class BeatKeeper : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        timeRunning += Time.deltaTime;
-        //Debug.Log(timeRunning);
-        if (timeRunning >= timeBetweenBeats + gracePeriod) //end of beat section, reset to new beat section
+        if (running)
         {
-            timeRunning -= timeBetweenBeats;
-            beatHit = false;
-            playedBeat = false;
-            enacted = false;
-            beats.Dequeue(); // pop cartridge
-            enemy.ResetState();
-            player.ResetState();
-        }
-        else if (!playedBeat && timeRunning >= timeBetweenBeats) // play beat sound & spawn new beats offscreen
-        {
-            DestroyBeats(0f);
-            SpawnSetOfBeatBars(-12, 12); // load cartridge
-            FindObjectOfType<AudioManager>().Play("Beat");
-            playedBeat = true;
-            enemy.ChooseMove();
-        }
-        else if (!enacted && timeRunning >= graceUpper) // end of grace period
-        {
-            // enact moves
-            enacted = true;            
-            enemy.EnactMove();
-            player.EnactMove();
-        }
-
+            timeRunning += Time.deltaTime;
+            //Debug.Log(timeRunning);
+            if (timeRunning >= timeBetweenBeats + gracePeriod) //end of beat section, reset to new beat section
+            {
+                timeRunning -= timeBetweenBeats;
+                beatHit = false;
+                playedBeat = false;
+                enacted = false;
+                beats.Dequeue(); // pop cartridge
+                enemy.ResetState();
+                player.ResetState();
+            }
+            else if (!playedBeat && timeRunning >= timeBetweenBeats) // play beat sound & spawn new beats offscreen
+            {
+                DestroyBeats(0f);
+                SpawnSetOfBeatBars(-12, 12); // load cartridge
+                FindObjectOfType<AudioManager>().Play("Beat");
+                playedBeat = true;
+                enemy.ChooseMove();
+            }
+            else if (!enacted && timeRunning >= graceUpper) // end of grace period
+            {
+                // enact moves
+                enacted = true;
+                enemy.EnactMove();
+                player.EnactMove();
+            }
+        }        
     }
 
     public void SpawnSetOfBeatBars(int leftBeatX, int rightBeatX)
@@ -118,6 +122,16 @@ public class BeatKeeper : MonoBehaviour
         }
 
         return onBeat;
+    }
+
+    public void SetRunning(bool running)
+    {
+        this.running = running;
+    }
+
+    public bool IsRunning()
+    {
+        return running;
     }
 
     public float TimeBetweenBeats()

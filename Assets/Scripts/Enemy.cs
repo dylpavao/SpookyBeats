@@ -21,7 +21,7 @@ public class Enemy : MovingObject
         maxHealth = 5;
         currentHealth = maxHealth;
         maxMana = 5;
-        currentMana = 1;
+        currentMana = 0;
         state = null;
         range = 3;        
         base.Start();
@@ -110,13 +110,13 @@ public class Enemy : MovingObject
 
     private void UpdateManaBar()
     {
-        GameObject.Find("EnemyManaNumbers").GetComponent<TextMeshPro>().SetText(currentMana + " / " + maxMana);
+        GameObject.Find("EnemyManaNumbers").GetComponent<TextMeshPro>().SetText(currentMana.ToString());
         GameObject.Find("EnemyManaBar").GetComponent<HealthBar>().SetSize(currentMana / maxMana);
     }
 
     private void UpdateHealthBar()
     {
-        GameObject.Find("EnemyHealthNumbers").GetComponent<TextMeshPro>().SetText(currentHealth + " / " + maxHealth);
+        GameObject.Find("EnemyHealthNumbers").GetComponent<TextMeshPro>().SetText(currentHealth.ToString());
         GameObject.Find("EnemyHealthBar").GetComponent<HealthBar>().SetSize(currentHealth / maxHealth);
     }
 
@@ -135,9 +135,8 @@ public class Enemy : MovingObject
             if (currentHealth == 0)
             {
                 //player wins
-                Player.GetInstance().SetEnemyDefeat(true);
-                Loader.playerPos = new Vector3(6.5f, -12.5f, 0);
-                Loader.Load(Loader.Scene.Overworld);
+                GameManager.GetInstance().SetWorldState("GruntDead", true);                
+                Loader.Load(SceneName.Overworld, Player.GetInstance().OverworldPosition());
             }
         }
     }
