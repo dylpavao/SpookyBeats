@@ -114,7 +114,8 @@ public class Player : MovingObject
             }
 
             if (Input.GetKeyDown(KeyCode.Space) && currentInterObj != null)
-            {                
+            {
+                Debug.Log(currentInterObj.name);
                 if (FindObjectOfType<UI_Assistant>().InDialogue())
                 {
                     bool endOfDialogue = GameObject.Find("UI_Assistant").GetComponent<UI_Assistant>().DisplayNextSentence();
