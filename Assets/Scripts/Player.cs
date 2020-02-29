@@ -74,11 +74,19 @@ public class Player : MovingObject
                 if (Input.GetKeyDown(KeyCode.D))
                     action = "attack";
                 else if (Input.GetKeyDown(KeyCode.W))
+                {
                     action = "charge";
+
+                    animator.SetBool("Charging", true);
+                }
                 else if (Input.GetKeyDown(KeyCode.S))
                     action = "block";
                 else if (Input.GetKeyDown(KeyCode.A))
+                {
                     action = "heal";
+
+                    animator.SetBool("Healing", true);
+                }
 
 
                 if (action != null && FindObjectOfType<BeatKeeper>().HitBeat())
@@ -216,6 +224,10 @@ public class Player : MovingObject
             UpdateManaBar();
             UpdateHealthBar();
         }
+
+
+        animator.SetBool("Charging",false);
+        animator.SetBool("Healing", false);
     }
     
     private void UpdateManaBar()
