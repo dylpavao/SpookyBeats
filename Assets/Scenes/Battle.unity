@@ -441,13 +441,19 @@ PrefabInstance:
     - target: {fileID: 550922171614866506, guid: 345ecc87497e3ba428eab67fb2df7f93,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 550922171614866506, guid: 345ecc87497e3ba428eab67fb2df7f93,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.75
+      value: 1.2
       objectReference: {fileID: 0}
+    - target: {fileID: 550922171614866507, guid: 345ecc87497e3ba428eab67fb2df7f93,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 808414092838099660, guid: 338880857ab52a14eb4980a23441c735,
+        type: 3}
     - target: {fileID: 550922171614866549, guid: 345ecc87497e3ba428eab67fb2df7f93,
         type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
@@ -458,17 +464,11 @@ PrefabInstance:
       propertyPath: m_Size.x
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 550922171614866507, guid: 345ecc87497e3ba428eab67fb2df7f93,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 6312194255951471552, guid: 99b5052d774adf84a971108a88e50990,
-        type: 3}
     - target: {fileID: 550922171614866504, guid: 345ecc87497e3ba428eab67fb2df7f93,
         type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: a92a7536238d7ca40988125b2983c631, type: 2}
+      objectReference: {fileID: 9100000, guid: 4b69caf2ba62eea479d6af5849cb958d, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 345ecc87497e3ba428eab67fb2df7f93, type: 3}
 --- !u!1001 &274726289
@@ -482,31 +482,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Canvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 2867865039318515189, guid: fb7da0a53f4df644499dda41b8bbad14,
-        type: 3}
-      propertyPath: m_RenderMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2867865039318515189, guid: fb7da0a53f4df644499dda41b8bbad14,
-        type: 3}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 563957568}
-    - target: {fileID: 2867865040605592452, guid: fb7da0a53f4df644499dda41b8bbad14,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2867865040556658894, guid: fb7da0a53f4df644499dda41b8bbad14,
-        type: 3}
-      propertyPath: m_Text
-      value: 'To start press '
-      objectReference: {fileID: 0}
-    - target: {fileID: 2867865040829586832, guid: fb7da0a53f4df644499dda41b8bbad14,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2867865039318515188, guid: fb7da0a53f4df644499dda41b8bbad14,
         type: 3}
@@ -611,6 +586,31 @@ PrefabInstance:
     - target: {fileID: 2867865039318515188, guid: fb7da0a53f4df644499dda41b8bbad14,
         type: 3}
       propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2867865039318515189, guid: fb7da0a53f4df644499dda41b8bbad14,
+        type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2867865039318515189, guid: fb7da0a53f4df644499dda41b8bbad14,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 563957568}
+    - target: {fileID: 2867865040556658894, guid: fb7da0a53f4df644499dda41b8bbad14,
+        type: 3}
+      propertyPath: m_Text
+      value: 'To start press '
+      objectReference: {fileID: 0}
+    - target: {fileID: 2867865040605592452, guid: fb7da0a53f4df644499dda41b8bbad14,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2867865040829586832, guid: fb7da0a53f4df644499dda41b8bbad14,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6961026477603852289, guid: fb7da0a53f4df644499dda41b8bbad14,

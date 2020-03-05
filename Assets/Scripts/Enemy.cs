@@ -11,6 +11,7 @@ public class Enemy : MovingObject
     private float currentMana;
     private int range;
     private string state;
+    private Animator animator;
     private readonly string[] states = new string[] { "attack", "charge", "block", "heal" };
 
     private bool firstUpdate = true; 
@@ -25,6 +26,7 @@ public class Enemy : MovingObject
         state = null;
         range = 3;        
         base.Start();
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -82,6 +84,26 @@ public class Enemy : MovingObject
     {
         int move = Random.Range(0, states.Length);              
         state = states[move];
+        if (state == "attack")
+        {
+            animator.SetBool("Attacking", true);
+            Debug.Log("Attack");
+        }
+        else if (state == "block")
+        {
+            animator.SetBool("Blocking", true);
+            Debug.Log("Block");
+        }
+        else if (state == "heal")
+        {
+            animator.SetBool("Healing", true);
+            Debug.Log("Heal");
+        }
+        else if (state == "charge")
+        {
+            animator.SetBool("Charging", true);
+            Debug.Log("Charge");
+        }
     }
 
     public void EnactMove()
@@ -106,6 +128,10 @@ public class Enemy : MovingObject
             UpdateManaBar();
             UpdateHealthBar();
         }
+        animator.SetBool("Charging", false);
+        animator.SetBool("Healing", false);
+        animator.SetBool("Attacking", false);
+        animator.SetBool("Blocking", false);
     }
 
     private void UpdateManaBar()
