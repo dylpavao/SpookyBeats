@@ -72,7 +72,11 @@ public class Player : MovingObject
                 string action = null;
 
                 if (Input.GetKeyDown(KeyCode.D))
+                {
                     action = "attack";
+
+                    animator.SetBool("Attacking", true);
+                }
                 else if (Input.GetKeyDown(KeyCode.W))
                 {
                     action = "charge";
@@ -80,7 +84,11 @@ public class Player : MovingObject
                     animator.SetBool("Charging", true);
                 }
                 else if (Input.GetKeyDown(KeyCode.S))
+                {
                     action = "block";
+
+                    animator.SetBool("Blocking", true);
+                }
                 else if (Input.GetKeyDown(KeyCode.A))
                 {
                     action = "heal";
@@ -228,6 +236,8 @@ public class Player : MovingObject
 
         animator.SetBool("Charging",false);
         animator.SetBool("Healing", false);
+        animator.SetBool("Attacking", false);
+        animator.SetBool("Blocking", false);
     }
     
     private void UpdateManaBar()
