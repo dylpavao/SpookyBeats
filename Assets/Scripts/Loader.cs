@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public enum SceneName
 {
-    Overworld, Loading, Crypt, Battle, GameOver
+    Overworld, Loading, Crypt, Battle, GameOver, Studio
 }
 
 public static class Loader 
