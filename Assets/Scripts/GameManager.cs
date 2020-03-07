@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
 
     private void PrepareScene()
     {
-        Debug.Log(Player.GetInstance().LastPosition());
+        //Debug.Log(Player.GetInstance().LastPosition());
         if (activeScene.name == "Overworld")
         {
             if (worldState["GateOpen"])

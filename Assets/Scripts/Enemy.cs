@@ -13,12 +13,12 @@ public class Enemy : MovingObject
     private string state;
     private Animator animator;
     private readonly string[] states = new string[] { "attack", "charge", "block", "heal" };
-
+    private static Enemy instance;
     private bool firstUpdate = true; 
 
     // Start is called before the first frame update
     protected override void Start()
-    {
+    {        
         maxHealth = 5;
         currentHealth = maxHealth;
         maxMana = 5;
@@ -26,7 +26,7 @@ public class Enemy : MovingObject
         state = null;
         range = 3;        
         base.Start();
-        animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>();        
     }
 
     private void Update()
@@ -64,15 +64,16 @@ public class Enemy : MovingObject
                 }
 
                 if (IsMoveable())
-                {
+                {                    
                     Move(xDir, yDir);
                 }
             }
         }
-        else
+        else if(SceneManager.GetActiveScene().name == "Battle")
         {
             if (firstUpdate)            //bandaid solution??
             {
+                transform.position = new Vector3(1.5f, 4.5f, 0);
                 UpdateHealthBar();
                 UpdateManaBar();
                 firstUpdate = false;
@@ -166,4 +167,13 @@ public class Enemy : MovingObject
             }
         }
     }
+
+    public void PrepareForBattle()
+    {
+        DisableMovement(true);
+        SetDestination(new Vector3(1.5f, 4.5f, 0));
+        DontDestroyOnLoad(gameObject);
+    }
+
+
 }

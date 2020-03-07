@@ -64,7 +64,8 @@ public abstract class MovingObject : MonoBehaviour
         sqrRemainingDist = (transform.position - destination).sqrMagnitude;
 
         while (sqrRemainingDist > float.Epsilon)
-        {            
+        {
+            //Debug.Log(destination);
             Vector3 newPosition = Vector3.MoveTowards(rb2D.position, destination, inverseMoveTime * Time.deltaTime);
             rb2D.MovePosition(newPosition);
             sqrRemainingDist = (transform.position - destination).sqrMagnitude;
@@ -75,7 +76,7 @@ public abstract class MovingObject : MonoBehaviour
 
     protected void UpdateDestination(int xDir, int yDir)
     {
-        if (sqrRemainingDist < 0.1 && !LayerCollision(xDir, yDir))
+        if (sqrRemainingDist < 0.05 && !LayerCollision(xDir, yDir))
         {
             lastPosition = destination;
             destination = destination + new Vector3(xDir, yDir);
@@ -102,10 +103,17 @@ public abstract class MovingObject : MonoBehaviour
         moveable = true;
     }
 
+    public void SetDestination(Vector3 dest)
+    {
+        destination = dest;
+    }
+
     protected void DisableMovement(bool stopCoroutine)
-    {        
-        if(stopCoroutine)
-            StopCoroutine(movement);
+    {
+        if (stopCoroutine)
+        {
+            StopCoroutine(movement);                   
+        }            
 
         moveable = false;
         moving = false;

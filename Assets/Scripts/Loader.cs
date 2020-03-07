@@ -17,7 +17,7 @@ public static class Loader
         //Loader.playerPos = playerPos;
         onLoaderCallback = () =>
         {
-            Player.GetInstance().transform.position = newPlayerPos;
+            Player.GetInstance().transform.position = newPlayerPos;            
             SceneManager.LoadScene(scene.ToString());
             Player.GetInstance().GetComponent<MovingObject>().EnableMovement();
         };

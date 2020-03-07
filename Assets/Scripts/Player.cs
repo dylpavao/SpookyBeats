@@ -272,7 +272,9 @@ public class Player : MovingObject
     {
         if (collision.tag == "Enemy")
         {
-            DisableMovement(true);
+            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+            enemy.PrepareForBattle();
+            DisableMovement(true);            
             SetDirection(1,0);
             overworldPosition = LastPosition();
             Loader.Load(SceneName.Battle, new Vector3(-1.5f, 4.5f, 0));            
