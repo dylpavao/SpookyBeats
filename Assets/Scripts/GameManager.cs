@@ -60,8 +60,12 @@ public class GameManager : MonoBehaviour
                 GameObject.Find("GraveyardGate").GetComponent<BoxCollider2D>().enabled = false;
             }
             if (worldState["GruntDead"])
-            {
-                Destroy(GameObject.Find("Enemy"));
+            {                
+                GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+                foreach(GameObject enemy in enemies)
+                {
+                    Destroy(enemy);
+                }                
             }
 
         }

@@ -175,5 +175,9 @@ public class Enemy : MovingObject
         DontDestroyOnLoad(gameObject);
     }
 
+    public void OnDestroy()
+    {
+        Debug.Log("GG");
+    }
 
 }
