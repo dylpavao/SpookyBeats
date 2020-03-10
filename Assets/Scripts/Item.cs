@@ -9,7 +9,7 @@ public enum ItemType
 
 public class Item
 {    
-    public ItemType itemType;
+    public ItemType itemType;    
     public int amount;
 
 }

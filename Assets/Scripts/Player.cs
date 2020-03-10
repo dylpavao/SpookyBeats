@@ -74,25 +74,21 @@ public class Player : MovingObject
                 if (Input.GetKeyDown(KeyCode.D))
                 {
                     action = "attack";
-
                     animator.SetBool("Attacking", true);
                 }
                 else if (Input.GetKeyDown(KeyCode.W))
                 {
                     action = "charge";
-
                     animator.SetBool("Charging", true);
                 }
                 else if (Input.GetKeyDown(KeyCode.S))
                 {
                     action = "block";
-
                     animator.SetBool("Blocking", true);
                 }
                 else if (Input.GetKeyDown(KeyCode.A))
                 {
                     action = "heal";
-
                     animator.SetBool("Healing", true);
                 }
 
@@ -102,33 +98,19 @@ public class Player : MovingObject
             }           
 
         }
-        else
+        else // in overworld
         {                     
 
+            // Get directional input
             int horizontal = 0;
             int vertical = 0;
             horizontal = (int)Input.GetAxisRaw("Horizontal");
             vertical = (int)Input.GetAxisRaw("Vertical");
 
             if(vertical != 0)            
-                horizontal = 0;            
+                horizontal = 0;
 
-            if ((horizontal != 0 || vertical != 0) && IsMoveable())
-            {                
-                if (IsMoving() && SameDirection(horizontal, vertical))
-                {
-                    UpdateDestination(horizontal, vertical);
-                }
-                else if (!IsMoving())
-                {
-                    SetDirection(horizontal, vertical);
-                    Move(horizontal, vertical);
-                }
-                currentInterObj = null;
-                currentInterObjScript = null;
-               
-            }
-
+            //interact with object in game
             if (Input.GetKeyDown(KeyCode.Space) && currentInterObj != null)
             {
                 Debug.Log(currentInterObj.name);
@@ -143,14 +125,30 @@ public class Player : MovingObject
                     }
                 }
                 else
-                {                    
+                {
                     if (currentInterObjScript.NeedsItem() && inventory.HasItem(currentInterObjScript.NeededItem()))
                     {
-                        currentInterObjScript.Unlock();                        
-                    }                    
+                        currentInterObjScript.Unlock();
+                    }
                     currentInterObjScript.TriggerDialogue();
-                }                
-            }            
+                }
+            }
+            else if ((horizontal != 0 || vertical != 0) && IsMoveable()) //character control
+            {                               
+                if (IsMoving() && SameDirection(horizontal, vertical))
+                {
+                    UpdateDestination(horizontal, vertical);
+                }
+                else if (!IsMoving())
+                {
+                    SetDirection(horizontal, vertical);
+                    Move(horizontal, vertical);
+                }
+                currentInterObj = null;
+                currentInterObjScript = null;                                           
+            }
+
+                 
         }
     }    
 
@@ -324,6 +322,11 @@ public class Player : MovingObject
     public static Player GetInstance()
     {
         return instance;
+    }
+
+    public Inventory GetInventory()
+    {
+        return inventory;
     }
 
     private void OnDestroy()
