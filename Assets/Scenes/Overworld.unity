@@ -2479,7 +2479,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &229214468
 Animator:
@@ -2695,7 +2695,7 @@ GameObject:
   m_Component:
   - component: {fileID: 291580067}
   m_Layer: 0
-  m_Name: Fences
+  m_Name: Graveyard Fencing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2736,8 +2736,9 @@ Transform:
   - {fileID: 1506950191}
   - {fileID: 627116499}
   - {fileID: 2138007449}
+  - {fileID: 2130455888}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &297047306
 PrefabInstance:
@@ -17489,7 +17490,7 @@ Transform:
   m_Children:
   - {fileID: 1887409233}
   m_Father: {fileID: 0}
-  m_RootOrder: 29
+  m_RootOrder: 28
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &399335076
 BoxCollider2D:
@@ -18201,7 +18202,7 @@ GameObject:
   m_Component:
   - component: {fileID: 464444553}
   m_Layer: 0
-  m_Name: Tree
+  m_Name: Town Tree Near Houses
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18226,7 +18227,7 @@ Transform:
   - {fileID: 167192458}
   - {fileID: 1840742988}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &475747724
 GameObject:
@@ -18700,7 +18701,7 @@ Transform:
   m_Children:
   - {fileID: 890329293}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &488038975
 BoxCollider2D:
@@ -19103,7 +19104,7 @@ GameObject:
   - component: {fileID: 536388922}
   - component: {fileID: 536388921}
   m_Layer: 8
-  m_Name: Fence (1)
+  m_Name: Bottom Fence Structure
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19231,8 +19232,9 @@ Transform:
   - {fileID: 923372052}
   - {fileID: 142697142}
   - {fileID: 1959646332}
+  - {fileID: 1984200595}
   m_Father: {fileID: 0}
-  m_RootOrder: 33
+  m_RootOrder: 32
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &547210508
 PrefabInstance:
@@ -21318,7 +21320,7 @@ Transform:
   - {fileID: 1467564984}
   - {fileID: 529780609}
   m_Father: {fileID: 0}
-  m_RootOrder: 23
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &800398571
 GameObject:
@@ -22029,7 +22031,7 @@ Transform:
   - {fileID: 1110185336}
   - {fileID: 633347841}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &841525388
 GameObject:
@@ -35915,7 +35917,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 32
+  m_RootOrder: 31
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &890329292
 GameObject:
@@ -36682,7 +36684,7 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &980251051
 PrefabInstance:
@@ -36760,7 +36762,7 @@ PrefabInstance:
     - target: {fileID: 7343955193870920661, guid: 1ae63489da073b145b75c00dfcef4127,
         type: 3}
       propertyPath: m_RootOrder
-      value: 24
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 7343955193870920661, guid: 1ae63489da073b145b75c00dfcef4127,
         type: 3}
@@ -37050,7 +37052,7 @@ Transform:
   - {fileID: 1971030379}
   - {fileID: 636620129}
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1040471980
 GameObject:
@@ -37439,7 +37441,7 @@ GameObject:
   - component: {fileID: 1104676751}
   - component: {fileID: 1104676754}
   m_Layer: 8
-  m_Name: Fontain
+  m_Name: Fountain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37526,7 +37528,7 @@ Transform:
   m_LocalScale: {x: 2.4, y: 2.5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 27
+  m_RootOrder: 26
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1104676754
 BoxCollider2D:
@@ -37564,7 +37566,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1110165848}
   m_Layer: 8
-  m_Name: Tree_Tops_All
+  m_Name: Trees for Witches House
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37586,7 +37588,7 @@ Transform:
   - {fileID: 1332066240}
   - {fileID: 1625470645}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1110185335
 GameObject:
@@ -37949,7 +37951,7 @@ Transform:
   - {fileID: 781612216}
   - {fileID: 406386858}
   m_Father: {fileID: 0}
-  m_RootOrder: 22
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1156271969
 GameObject:
@@ -38215,7 +38217,7 @@ PrefabInstance:
     - target: {fileID: 359880764849206172, guid: 3ee0d4832e32bad47a10ad0cf293643e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 25
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 359880764849206172, guid: 3ee0d4832e32bad47a10ad0cf293643e,
         type: 3}
@@ -39645,7 +39647,7 @@ GameObject:
   - component: {fileID: 1347459325}
   - component: {fileID: 1347459326}
   m_Layer: 8
-  m_Name: TreeSection (1)
+  m_Name: Tree Section by Town
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39696,7 +39698,7 @@ Transform:
   - {fileID: 1268483416}
   - {fileID: 2019311618}
   m_Father: {fileID: 0}
-  m_RootOrder: 30
+  m_RootOrder: 29
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1347459326
 BoxCollider2D:
@@ -42056,7 +42058,7 @@ Transform:
   m_Children:
   - {fileID: 769807644}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1564538765
 GameObject:
@@ -42449,7 +42451,7 @@ GameObject:
   - component: {fileID: 1597955029}
   - component: {fileID: 1597955028}
   m_Layer: 8
-  m_Name: TreeSection (2)
+  m_Name: Tree Section by Graveyard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42527,7 +42529,7 @@ Transform:
   - {fileID: 493080506}
   - {fileID: 1384378413}
   m_Father: {fileID: 0}
-  m_RootOrder: 31
+  m_RootOrder: 30
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1599260796
 GameObject:
@@ -42995,7 +42997,7 @@ Transform:
   m_Children:
   - {fileID: 577640442}
   m_Father: {fileID: 0}
-  m_RootOrder: 28
+  m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1616837987
 GameObject:
@@ -57620,7 +57622,7 @@ Transform:
   m_Children:
   - {fileID: 1648083499}
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1676352911
 GameObject:
@@ -58438,7 +58440,7 @@ Transform:
   m_LocalScale: {x: 7.1805, y: 7.1805, z: 2.3935}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1828408324
 GameObject:
@@ -59426,7 +59428,7 @@ Transform:
   m_Children:
   - {fileID: 1440795965}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1895705134
 BoxCollider2D:
@@ -60765,12 +60767,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1984200593}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13, y: -24.271, z: 0}
-  m_LocalScale: {x: 2.502335, y: 2.502335, z: 2.502335}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -3.48, y: 7.9955993, z: 0}
+  m_LocalScale: {x: 1.000934, y: 1.000934, z: 2.502335}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 34
+  m_Father: {fileID: 536388923}
+  m_RootOrder: 36
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1995845454
 GameObject:
@@ -60808,7 +60810,7 @@ Transform:
   - {fileID: 1388070505}
   - {fileID: 1150231206}
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2014645474
 GameObject:
@@ -60878,7 +60880,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 26
+  m_RootOrder: 25
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2015642424
 GameObject:
@@ -62484,7 +62486,7 @@ Transform:
   m_LocalScale: {x: 8.053528, y: 8.155471, z: 8.155471}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2113697370
 GameObject:
@@ -62496,7 +62498,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2113697371}
   m_Layer: 0
-  m_Name: Witch_Fences
+  m_Name: Witch House Fences
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -62529,7 +62531,7 @@ Transform:
   - {fileID: 2069110138}
   - {fileID: 1793252955}
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2115832752
 GameObject:
@@ -62711,12 +62713,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2130455885}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.063, y: -4.86, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -11.794527, y: -4.8478036, z: 0}
   m_LocalScale: {x: 4.635742, y: 2.5613282, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_Father: {fileID: 291580067}
+  m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2131771625
 GameObject:
@@ -62754,7 +62756,7 @@ Transform:
   - {fileID: 1317024896}
   - {fileID: 297047307}
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2134081799
 GameObject:
