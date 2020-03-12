@@ -12,7 +12,7 @@ public class Enemy : MovingObject
     private int range;
     private string state;
     private Animator animator;
-    private readonly string[] states = new string[] { "attack", "charge", "block", "heal" };
+    private readonly string[] states = new string[] { "Attacking", "Charging", "Blocking", "Healing" };
     private static Enemy instance;
     private bool firstUpdate = true; 
 
@@ -24,9 +24,10 @@ public class Enemy : MovingObject
         maxMana = 5;
         currentMana = 0;
         state = null;
+        animator = GameObject.Find("EnemyGraphics").GetComponent<Animator>();
         range = 3;        
         base.Start();
-        animator = GetComponent<Animator>();        
+               
     }
 
     private void Update()
@@ -85,44 +86,24 @@ public class Enemy : MovingObject
     {
         int move = Random.Range(0, states.Length);              
         state = states[move];
-        if (state == "attack")
-        {
-            animator.SetBool("Attacking", true);
-            Debug.Log("Attack");
-        }
-        else if (state == "block")
-        {
-            animator.SetBool("Blocking", true);
-            Debug.Log("Block");
-        }
-        else if (state == "heal")
-        {
-            animator.SetBool("Healing", true);
-            Debug.Log("Heal");
-        }
-        else if (state == "charge")
-        {
-            animator.SetBool("Charging", true);
-            Debug.Log("Charge");
-        }
+        animator.SetBool(state, true);       
     }
 
     public void EnactMove()
     {
         //create enums for states
-
-        if (state == "attack" && currentMana > 0)
-        {
+        if (state == "Attacking" && currentMana > 0)
+        {           
             currentMana--;
             UpdateManaBar();
             Player.GetInstance().TakeDamage(1);
         }
-        else if (state == "charge" && currentMana < maxMana)
+        else if (state == "Charging" && currentMana < maxMana)
         {
             currentMana++;
             UpdateManaBar();
         }
-        else if (state == "heal" && currentMana > 0 && currentHealth < maxHealth)
+        else if (state == "Healing" && currentMana > 0 && currentHealth < maxHealth)
         {
             currentMana--;
             currentHealth++;
@@ -154,10 +135,11 @@ public class Enemy : MovingObject
 
     public void TakeDamage(int dmg)
     {
-        if (state != "block")
+        if (state != "Blocking")
         {                 
             currentHealth -= dmg;
             UpdateHealthBar();
+            animator.SetBool("Damaged", true);
 
             if (currentHealth == 0)
             {

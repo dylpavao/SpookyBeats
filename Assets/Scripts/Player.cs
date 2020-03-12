@@ -73,28 +73,31 @@ public class Player : MovingObject
 
                 if (Input.GetKeyDown(KeyCode.D))
                 {
-                    action = "attack";
-                    animator.SetBool("Attacking", true);
+                    action = "Attacking";
+                    
                 }
                 else if (Input.GetKeyDown(KeyCode.W))
                 {
-                    action = "charge";
-                    animator.SetBool("Charging", true);
+                    action = "Charging";
+                    
                 }
                 else if (Input.GetKeyDown(KeyCode.S))
                 {
-                    action = "block";
-                    animator.SetBool("Blocking", true);
+                    action = "Blocking";
+                    
                 }
                 else if (Input.GetKeyDown(KeyCode.A))
                 {
-                    action = "heal";
-                    animator.SetBool("Healing", true);
+                    action = "Healing";
+                    
                 }
 
 
                 if (action != null && FindObjectOfType<BeatKeeper>().HitBeat())
+                {
+                    animator.SetBool(action, true);
                     state = action;
+                }                    
             }           
 
         }
@@ -212,18 +215,18 @@ public class Player : MovingObject
 
     public void EnactMove()
     {
-        if (state == "attack" && currentMana > 0)
+        if (state == "Attacking" && currentMana > 0)
         {
             currentMana--;
             UpdateManaBar();
             GameObject.Find("Enemy").GetComponent<Enemy>().TakeDamage(1);
         }
-        else if (state == "charge" && currentMana < maxMana)
+        else if (state == "Charging" && currentMana < maxMana)
         {
             currentMana++;
             UpdateManaBar();
         }
-        else if (state == "heal" && currentMana > 0 && currentHealth < maxHealth)
+        else if (state == "Healing" && currentMana > 0 && currentHealth < maxHealth)
         {
             currentMana--;
             currentHealth++;
@@ -253,7 +256,7 @@ public class Player : MovingObject
 
     public void TakeDamage(int dmg)
     {
-        if (state != "block")
+        if (state != "Blocking")
         {            
             currentHealth -= dmg; // prevent negative health            
             UpdateHealthBar();
