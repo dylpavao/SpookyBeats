@@ -36,8 +36,8 @@ public class Player : MovingObject
         currentHealth = maxHealth;
         maxMana = 5;
         currentMana = 0;
-        state = null;        
-        animator = GetComponent<Animator>(); // put in parent class?
+        state = null;
+        animator = GameObject.Find("PlayerGraphics").GetComponent<Animator>(); // put in parent class?                                                                           
         inventory = new Inventory();
         //GameObject.Find("UI_Assistant").GetComponent<UI_Assistant>().SetInventory(inventory); //change UI_Assistant access
         base.Start();        
@@ -236,6 +236,7 @@ public class Player : MovingObject
         animator.SetBool("Healing", false);
         animator.SetBool("Attacking", false);
         animator.SetBool("Blocking", false);
+       
     }
     
     private void UpdateManaBar()
@@ -256,6 +257,7 @@ public class Player : MovingObject
         {            
             currentHealth -= dmg; // prevent negative health            
             UpdateHealthBar();
+            animator.SetBool("Damaged", true);
 
             if (currentHealth == 0)
             {
