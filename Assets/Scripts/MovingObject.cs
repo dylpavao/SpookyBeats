@@ -10,10 +10,12 @@ public abstract class MovingObject : MonoBehaviour
     private float inverseMoveTime;        
     private bool moveable;
     private bool moving;
+    //private bool posUpdated;    
     private Vector3 lastPosition;
     private Vector3 destination;
     private float sqrRemainingDist = 0;    
     private Coroutine movement;
+
 
     public Direction dir;
 
@@ -29,8 +31,10 @@ public abstract class MovingObject : MonoBehaviour
     {
         boxCollider = GetComponent<BoxCollider2D>();
         rb2D = GetComponent<Rigidbody2D>();
-        inverseMoveTime = 1f / moveTime;                
+        inverseMoveTime = 1f / moveTime;
+        moving = false;
         moveable = true;
+        //posUpdated = false;        
     }
 
     protected bool Move(int xDir, int yDir) // may not need bool
@@ -75,9 +79,15 @@ public abstract class MovingObject : MonoBehaviour
     }
 
     protected void UpdateDestination(int xDir, int yDir)
-    {
+    {           
+        ////Prevents double update?
+        //float resetVal = (transform.position - lastPosition).sqrMagnitude;
+        //if (resetVal <= float.Epsilon)
+        //    posUpdated = false;
+
         if (sqrRemainingDist < 0.05 && !LayerCollision(xDir, yDir))
         {
+            //posUpdated = true;
             lastPosition = destination;
             destination = destination + new Vector3(xDir, yDir);
         }            

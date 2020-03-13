@@ -54,67 +54,105 @@ public class UI_Assistant : MonoBehaviour //make SINGLETON
 
     private void Update()
     {        
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Tab) && !inDialogue)
         {
             ToggleMenu();   
         }
-        if (inMenu)
+
+        if (inMenu && !inDialogue)
         {
+            Player.GetInstance().SetMoveable(false);
             if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A))
-            {                
+            {
                 if (menuCursor != 0)
-                    menuCursor--;                
-                    
+                    menuCursor--;
+
                 UpdateMenu();
             }
             else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D))
-            {                
-                if(menuCursor != menuTextBoxes.Length-1)
+            {
+                if (menuCursor != menuTextBoxes.Length - 1)
                 {
-                    if(menuText[menuCursor+1] != "")
+                    if (menuText[menuCursor + 1] != "")
                     {
                         menuCursor++;
-                    }                    
-                }                    
-
+                    }
+                }
                 UpdateMenu();
+            }            
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (inDialogue)
+            {
+                bool endOfDialogue = DisplayNextSentence();                
+                if (endOfDialogue && Player.GetInstance().HasInteractiveObject())
+                {
+                    if(Player.GetInstance().GetInteractiveObject().GetComponent<InteractiveObject>().IsItem() && !inMenu)
+                    {
+                        Destroy(Player.GetInstance().GetInteractiveObject());                        
+                    }                    
+                }
             }
-            else if (Input.GetKeyDown(KeyCode.Space))
+            else if (inMenu)
             {                
                 if (menuText[menuCursor] == "Inventory")
                 {
-                    inventory = Player.GetInstance().GetInventory();                  
-                    ClearMenuText();                    
-                    menuText = inventory.GetPage(0,menuTextBoxes.Length);                    
-                    UpdateMenu();
+                    inventory = Player.GetInstance().GetInventory();
+                    if (inventory.NumItems() > 0)
+                    {
+                        ClearMenuText();
+                        menuText = inventory.GetPage(0, menuTextBoxes.Length);
+                        UpdateMenu();
+                    }
+                    else
+                    {
+                        string[] test = new string[] { "Doug's inventory is empty..." };
+                        Dialogue d = new Dialogue { sentences = test };
+                        StartDialogue(d);
+                    }
                 }
+            }            
+            else if (Player.GetInstance().GetInteractiveObject() != null)
+            {                
+                InteractiveObject interObjScript = Player.GetInstance().GetInteractiveObjectScript();
+                Debug.Log(interObjScript.NeedsItem());
+                Debug.Log(Player.GetInstance().GetInventory().HasItem(interObjScript.NeededItem()));                
+                if (interObjScript.NeedsItem() && Player.GetInstance().GetInventory().HasItem(interObjScript.NeededItem()))
+                {
+                    interObjScript.Unlock();                  
+                    interObjScript.Fuck(true);
+                }                    
+
+                Player.GetInstance().GetInteractiveObjectScript().TriggerDialogue();
             }
-        }        
+        }
     }    
 
     public void StartDialogue(Dialogue dialogue)
-    {       
-        Player.GetInstance().SetMoveable(false); //may be bad spot for this
+    {
+        Player.GetInstance().SetMoveable(false);
         sentences.Clear();
         inDialogue = true;
         foreach (string sentence in dialogue.sentences)
-        {
-            sentences.Enqueue(sentence);
+        {            
+            sentences.Enqueue(sentence);            
         }
         message.SetActive(true);
-        DisplayNextSentence();
+        DisplayNextSentence();             
     }
 
     public bool DisplayNextSentence()
-    {
+    {        
         if(sentences.Count == 0)
         {
-            EndDialogue();
+            EndDialogue();            
             return true;
         }
 
-        string sentence = sentences.Dequeue();
-        StopAllCoroutines();
+        string sentence = sentences.Dequeue();        
+        StopAllCoroutines();        
         StartCoroutine(TypeSentence(sentence));
         return false;
     }
@@ -125,17 +163,24 @@ public class UI_Assistant : MonoBehaviour //make SINGLETON
 
         foreach(char letter in sentence.ToCharArray())
         {
-            messageText.text += letter;
+            messageText.text += letter;            
             yield return new WaitForSeconds(0.025f);
         }
     }
 
-    void EndDialogue()
+    public void AppendDialogue(Dialogue dialogue)
     {
-        
-        Player.GetInstance().SetMoveable(true);
+        foreach (string sentence in dialogue.sentences)
+        {            
+            sentences.Enqueue(sentence);
+        }
+    }
+
+    private void EndDialogue()
+    {               
         inDialogue = false;
         message.SetActive(false);
+        Player.GetInstance().SetMoveable(true);
     }
 
     public void ToggleMenu()
@@ -147,11 +192,12 @@ public class UI_Assistant : MonoBehaviour //make SINGLETON
         }
         else
         {
+            //Player.GetInstance().ClearInteractiveObject();
+            Player.GetInstance().SetMoveable(false);
             inMenu = true;
             menuCursor = 0;
             menuText = (string[]) pauseMenuItems.Clone();
-            UpdateMenu();
-            Player.GetInstance().SetMoveable(false);
+            UpdateMenu();            
         }            
 
         menu.SetActive(inMenu);
@@ -161,8 +207,7 @@ public class UI_Assistant : MonoBehaviour //make SINGLETON
     public void UpdateMenu()
     {
         for (int i = 0; i < menuTextBoxes.Length; i++)
-        {
-            Debug.Log(menuText[i].ToString());
+        {            
             if (i == menuCursor)
                 menuTextBoxes[i].text = "> " + menuText[i];
             else
@@ -186,6 +231,11 @@ public class UI_Assistant : MonoBehaviour //make SINGLETON
     public bool InDialogue()
     {
         return inDialogue;
+    }
+
+    public bool IsBusy()
+    {
+        return inMenu || inDialogue;
     }
 
 }

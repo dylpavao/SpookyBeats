@@ -4,12 +4,13 @@ using UnityEngine;
 
 public enum ItemType
 {
-    Null, Crown, Kazoo
+    Null, Crown, Kazoo, Apple, YellowKey, BlueKey, RedKey, MegaKey,
 }
 
 public class Item
 {    
     public ItemType itemType;    
     public int amount;
+    public string itemName;    
 
 }

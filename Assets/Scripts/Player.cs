@@ -113,30 +113,25 @@ public class Player : MovingObject
             if(vertical != 0)            
                 horizontal = 0;
 
-            //interact with object in game
-            if (Input.GetKeyDown(KeyCode.Space) && currentInterObj != null)
-            {
-                Debug.Log(currentInterObj.name);
-                if (FindObjectOfType<UI_Assistant>().InDialogue())
-                {
-                    bool endOfDialogue = GameObject.Find("UI_Assistant").GetComponent<UI_Assistant>().DisplayNextSentence();
 
-                    if (endOfDialogue && currentInterObjScript.IsItem())
-                    {
-                        inventory.AddItem(currentInterObjScript.GetItem());
-                        Destroy(currentInterObj);
-                    }
-                }
-                else
+            //Obtain Item in game [SPACE]
+            if (Input.GetKeyDown(KeyCode.Space) && currentInterObj != null && !inventory.HasItem(currentInterObjScript.GivenItem()) && !FindObjectOfType<UI_Assistant>().IsBusy())
+            {
+                //currentInterObjScript.Fuck(false);
+                if (currentInterObjScript.IsItem())
                 {
-                    if (currentInterObjScript.NeedsItem() && inventory.HasItem(currentInterObjScript.NeededItem()))
-                    {
-                        currentInterObjScript.Unlock();
-                    }
-                    currentInterObjScript.TriggerDialogue();
+                    inventory.AddItem(currentInterObjScript.GetItem());                        
                 }
+                else if (currentInterObjScript.NeedsItem() && inventory.HasItem(currentInterObjScript.NeededItem()))
+                {
+                    currentInterObjScript.Unlock();
+                    currentInterObjScript.Fuck(true);
+                    inventory.RemoveItem(currentInterObjScript.NeededItem());
+                    inventory.AddItem(currentInterObjScript.GetItem());
+                }                
+
             }
-            else if ((horizontal != 0 || vertical != 0) && IsMoveable()) //character control
+            else if ((horizontal != 0 || vertical != 0) && IsMoveable()) //character control [W,A,S,D]
             {                               
                 if (IsMoving() && SameDirection(horizontal, vertical))
                 {
@@ -149,9 +144,7 @@ public class Player : MovingObject
                 }
                 currentInterObj = null;
                 currentInterObjScript = null;                                           
-            }
-
-                 
+            }                            
         }
     }    
 
@@ -332,6 +325,26 @@ public class Player : MovingObject
     public Inventory GetInventory()
     {
         return inventory;
+    }
+
+    public void ClearInteractiveObject()
+    {
+        currentInterObj = null;
+    }
+
+    public bool HasInteractiveObject()
+    {
+        return currentInterObj != null;
+    }
+
+    public GameObject GetInteractiveObject()
+    {
+        return currentInterObj;
+    }
+
+    public InteractiveObject GetInteractiveObjectScript()
+    {
+        return currentInterObjScript;
     }
 
     private void OnDestroy()

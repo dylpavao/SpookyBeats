@@ -12,6 +12,11 @@ public class Inventory
         itemList = new List<Item>();                
     }
 
+    public void RemoveItem(ItemType itemToRemove)
+    {
+        itemList.Remove(GetItem(itemToRemove));
+    }
+
     public void AddItem(Item item)
     {
         itemList.Add(item);
@@ -21,7 +26,21 @@ public class Inventory
             case ItemType.Crown:
                 GameManager.GetInstance().SetWorldState("CrownObtained", true);
                 break;
+            case ItemType.Apple:
+                GameManager.GetInstance().SetWorldState("AppleObtained", true);
+                break;
+            case ItemType.RedKey:
+                GameManager.GetInstance().SetWorldState("RedKeyObtained", true);
+                break;
+            case ItemType.BlueKey:
+                GameManager.GetInstance().SetWorldState("BlueKeyObtained", true);                
+                break;
+            case ItemType.YellowKey:
+                GameManager.GetInstance().SetWorldState("YellowKeyObtained", true);                
+                break;
         }
+
+        CheckKeys();
     }
 
     public List<Item> ItemList()
@@ -32,12 +51,16 @@ public class Inventory
     public string[] GetPage(int pg, int numItemPerPage)
     {
         string[] page = new string[numItemPerPage];
-        for(int i = 0; i < page.Length; i++)
+        for(int i = 0; i < numItemPerPage; i++)
         {
             if (i < itemList.Count)
-                page[i] = itemList[i].itemType.ToString();
+            {
+                page[i] = itemList[i].itemName;                
+            }                
             else
-                page[i] = "";
+            {
+                page[i] = "";                
+            }                
         }
         return page;
     }
@@ -52,9 +75,35 @@ public class Inventory
         return false;
     }
 
+    public Item GetItem(ItemType itemType)
+    {
+        Item it = null;
+        foreach (Item item in itemList)
+        {
+            if (item.itemType == itemType)
+                return item;
+        }
+        return it;
+    }
+
     public int NumItems()
     {
         return itemList.Count;
+    }
+
+    public void CheckKeys()
+    {        
+        if(HasItem(ItemType.RedKey) && HasItem(ItemType.BlueKey) && HasItem(ItemType.YellowKey))
+        {
+            Debug.Log("Good");
+            RemoveItem(ItemType.RedKey);
+            RemoveItem(ItemType.BlueKey);
+            RemoveItem(ItemType.YellowKey);
+            AddItem(new Item { itemType = ItemType.MegaKey, amount = 1, itemName = "Mega Key"});
+            string[] test = new string[] { "The Mega Key was created!", "The Mega Key was added to Doug's inventory." };
+            Dialogue d = new Dialogue { sentences = test };
+            GameObject.Find("UI_Assistant").GetComponent<UI_Assistant>().StartDialogue(d);
+        }
     }
 
 }

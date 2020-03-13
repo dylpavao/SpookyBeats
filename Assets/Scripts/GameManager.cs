@@ -13,7 +13,10 @@ public class GameManager : MonoBehaviour
     {
         {"GateOpen", false},
         {"CrownObtained", false},
-        {"GruntDead", false}
+        {"GruntDead", false},
+        {"AppleObtained", false},
+        {"BlueKeyObtained", false},
+        {"YellowKeyObtained", false}
     };
 
     //Called before start, after all objects are initialized
@@ -66,6 +69,18 @@ public class GameManager : MonoBehaviour
                 {
                     Destroy(enemy);
                 }                
+            }
+            if (worldState["AppleObtained"])
+            {
+                Destroy(GameObject.Find("Apple"));
+            }
+            if (worldState["BlueKeyObtained"])
+            {
+                GameObject.Find("Skeleton").GetComponent<InteractiveObject>().Unlock();
+            }
+            if (worldState["YellowKeyObtained"])
+            {
+                Destroy(GameObject.Find("YellowKey"));
             }
 
         }
