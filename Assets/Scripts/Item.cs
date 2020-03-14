@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum ItemType
 {
-    Null, Crown, Kazoo, Apple, YellowKey, BlueKey, RedKey, MegaKey,
+    Null, Crown, Kazoo, Apple, Garlic, YellowKey, BlueKey, RedKey, MegaKey,
 }
 
 public class Item

@@ -16,7 +16,8 @@ public class GameManager : MonoBehaviour
         {"GruntDead", false},
         {"AppleObtained", false},
         {"BlueKeyObtained", false},
-        {"YellowKeyObtained", false}
+        {"YellowKeyObtained", false},
+        {"GarlicObtained", false}
     };
 
     //Called before start, after all objects are initialized
@@ -81,8 +82,14 @@ public class GameManager : MonoBehaviour
             if (worldState["YellowKeyObtained"])
             {
                 Destroy(GameObject.Find("YellowKey"));
+            }           
+        }
+        else if(activeScene.name == "Studio")
+        {
+            if (worldState["GarlicObtained"])
+            {
+                Destroy(GameObject.Find("Garlic"));
             }
-
         }
         else if(activeScene.name == "Crypt")
         {            

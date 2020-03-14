@@ -1300,6 +1300,21 @@ PrefabInstance:
       propertyPath: m_FontData.m_Alignment
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 344497681814465742, guid: fb7da0a53f4df644499dda41b8bbad14,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 344497681814465742, guid: fb7da0a53f4df644499dda41b8bbad14,
+        type: 3}
+      propertyPath: m_FontData.m_MinSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 344497681814465742, guid: fb7da0a53f4df644499dda41b8bbad14,
+        type: 3}
+      propertyPath: m_FontData.m_LineSpacing
+      value: 1.75
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb7da0a53f4df644499dda41b8bbad14, type: 3}
 --- !u!1 &665688886
@@ -1579,17 +1594,18 @@ MonoBehaviour:
     sentences:
     - "...a visitor? After so many years? Tell me, why have you come to my resting
       place\u2026"
-    - "\u2026 I see. You need an instrument to take on the Ghost Gang and retrieve
-      your guitar. Not many instruments remain here after that darn Gang looted the
-      place"
-    - There is this measly Kazoo, however I will hand it over once you can find my
-      crown.
+    - "\u2026I see. You need an instrument to take on the Ghost Gang and retrieve
+      your guitar. "
+    - Not many instruments remain here after that darn Gang looted the place, however...
+    - I do have this measly Kazoo, I'm willing to trade if you find my crown
   dialogue2:
     sentences:
-    - Thank you for finding my crown, I have unlocked the gate for you.
-    - Heres a Kazoo, now go stop the Ghost Gang!
+    - Thank you for finding my crown, you shall have your reward.
+    - I have also opened the gate for you, now go stop the Ghost Gang!
   dialogue3:
-    sentences: []
+    sentences:
+    - The Crown was removed from Doug's inventory.
+    - A Kazoo was added to Dougs inventory.
 --- !u!1 &729961300
 GameObject:
   m_ObjectHideFlags: 0
@@ -1639,7 +1655,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &791431580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1818,8 +1834,8 @@ MonoBehaviour:
   givesItem: 1
   dialogue1:
     sentences:
-    - Doug found a Crown!
-    - Doug put the Crown in his Inventory.
+    - Doug found the Crown!
+    - Doug put the Crown in his inventory.
   dialogue2:
     sentences: []
   dialogue3:
@@ -3157,15 +3173,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isItem: 0
-  neededItem: 0
-  givesItem: 0
+  neededItem: 4
+  givesItem: 7
   dialogue1:
     sentences:
     - Something peeks at you from within...
+    - It's probably hiding from something scary.
   dialogue2:
-    sentences: []
+    sentences:
+    - Something screeches from within the coffin...
+    - It seems to not like the Garlic...
+    - The Garlic disintegrates and Red Key slips through the cracks..
   dialogue3:
-    sentences: []
+    sentences:
+    - Garlic was removed from Doug's inventory.
+    - A Red Key was added to Doug's inventory!
 --- !u!1001 &1521973910
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3241,7 +3263,12 @@ PrefabInstance:
     - target: {fileID: 8800837468171519774, guid: fe4cba18b651c994285af5035e46574c,
         type: 3}
       propertyPath: m_Size.y
-      value: 4
+      value: 3.0013185
+      objectReference: {fileID: 0}
+    - target: {fileID: 8800837468171519774, guid: fe4cba18b651c994285af5035e46574c,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: 0.49934077
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fe4cba18b651c994285af5035e46574c, type: 3}

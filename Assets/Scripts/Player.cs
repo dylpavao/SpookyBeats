@@ -49,7 +49,7 @@ public class Player : MovingObject
     // Update is called once per frame
     private void Update()
     {        
-        if (SceneManager.GetActiveScene().name == "Battle")
+        if (SceneManager.GetActiveScene().name == "Battle") // Battle Controls
         {            
             if (firstUpdate)
             {
@@ -114,24 +114,7 @@ public class Player : MovingObject
                 horizontal = 0;
 
 
-            //Obtain Item in game [SPACE]
-            if (Input.GetKeyDown(KeyCode.Space) && currentInterObj != null && !inventory.HasItem(currentInterObjScript.GivenItem()) && !FindObjectOfType<UI_Assistant>().IsBusy())
-            {
-                //currentInterObjScript.Fuck(false);
-                if (currentInterObjScript.IsItem())
-                {
-                    inventory.AddItem(currentInterObjScript.GetItem());                        
-                }
-                else if (currentInterObjScript.NeedsItem() && inventory.HasItem(currentInterObjScript.NeededItem()))
-                {
-                    currentInterObjScript.Unlock();
-                    currentInterObjScript.Fuck(true);
-                    inventory.RemoveItem(currentInterObjScript.NeededItem());
-                    inventory.AddItem(currentInterObjScript.GetItem());
-                }                
-
-            }
-            else if ((horizontal != 0 || vertical != 0) && IsMoveable()) //character control [W,A,S,D]
+            if ((horizontal != 0 || vertical != 0) && IsMoveable()) //character control [W,A,S,D]
             {                               
                 if (IsMoving() && SameDirection(horizontal, vertical))
                 {
@@ -345,6 +328,11 @@ public class Player : MovingObject
     public InteractiveObject GetInteractiveObjectScript()
     {
         return currentInterObjScript;
+    }
+
+    public bool InBattle()
+    {
+        return SceneManager.GetActiveScene().name == "Battle";
     }
 
     private void OnDestroy()

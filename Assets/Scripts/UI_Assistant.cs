@@ -53,8 +53,8 @@ public class UI_Assistant : MonoBehaviour //make SINGLETON
     }
 
     private void Update()
-    {        
-        if (Input.GetKeyDown(KeyCode.Tab) && !inDialogue)
+    {
+        if (Input.GetKeyDown(KeyCode.Tab) && !inDialogue && !Player.GetInstance().InBattle())
         {
             ToggleMenu();   
         }
@@ -92,8 +92,9 @@ public class UI_Assistant : MonoBehaviour //make SINGLETON
                     if(Player.GetInstance().GetInteractiveObject().GetComponent<InteractiveObject>().IsItem() && !inMenu)
                     {
                         Destroy(Player.GetInstance().GetInteractiveObject());                        
-                    }                    
-                }
+                    }
+                    inventory.CheckKeys();
+                }                
             }
             else if (inMenu)
             {                
@@ -115,17 +116,25 @@ public class UI_Assistant : MonoBehaviour //make SINGLETON
                 }
             }            
             else if (Player.GetInstance().GetInteractiveObject() != null)
-            {                
+            {
                 InteractiveObject interObjScript = Player.GetInstance().GetInteractiveObjectScript();
-                Debug.Log(interObjScript.NeedsItem());
-                Debug.Log(Player.GetInstance().GetInventory().HasItem(interObjScript.NeededItem()));                
-                if (interObjScript.NeedsItem() && Player.GetInstance().GetInventory().HasItem(interObjScript.NeededItem()))
-                {
-                    interObjScript.Unlock();                  
-                    interObjScript.Fuck(true);
-                }                    
+                inventory = Player.GetInstance().GetInventory();
 
-                Player.GetInstance().GetInteractiveObjectScript().TriggerDialogue();
+                if (interObjScript.IsItem())
+                {
+                    inventory.AddItem(interObjScript.GetItem());
+                }
+                else if (interObjScript.NeedsItem() && inventory.HasItem(interObjScript.NeededItem()))
+                {
+                    interObjScript.Unlock();
+                    if (interObjScript.GivesItem())
+                    {
+                        inventory.RemoveItem(interObjScript.NeededItem());
+                        inventory.AddItem(interObjScript.GetItem());
+                    }                    
+                }                                                               
+
+                interObjScript.TriggerDialogue();
             }
         }
     }    
@@ -136,7 +145,8 @@ public class UI_Assistant : MonoBehaviour //make SINGLETON
         sentences.Clear();
         inDialogue = true;
         foreach (string sentence in dialogue.sentences)
-        {            
+        {
+            Debug.Log(sentence);
             sentences.Enqueue(sentence);            
         }
         message.SetActive(true);

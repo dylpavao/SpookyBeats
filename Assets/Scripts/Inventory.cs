@@ -9,7 +9,9 @@ public class Inventory
 
     public Inventory()
     {
-        itemList = new List<Item>();                
+        itemList = new List<Item>();
+        //AddItem(new Item { itemType = ItemType.RedKey, amount = 1, itemName = "Red Key" });
+        //AddItem(new Item { itemType = ItemType.BlueKey, amount = 1, itemName = "Blue Key" });
     }
 
     public void RemoveItem(ItemType itemToRemove)
@@ -38,9 +40,12 @@ public class Inventory
             case ItemType.YellowKey:
                 GameManager.GetInstance().SetWorldState("YellowKeyObtained", true);                
                 break;
+            case ItemType.Garlic:
+                GameManager.GetInstance().SetWorldState("GarlicObtained", true);
+                break;
         }
 
-        CheckKeys();
+        //CheckKeys();
     }
 
     public List<Item> ItemList()
@@ -95,7 +100,7 @@ public class Inventory
     {        
         if(HasItem(ItemType.RedKey) && HasItem(ItemType.BlueKey) && HasItem(ItemType.YellowKey))
         {
-            Debug.Log("Good");
+            Debug.Log("Mega Key");
             RemoveItem(ItemType.RedKey);
             RemoveItem(ItemType.BlueKey);
             RemoveItem(ItemType.YellowKey);

@@ -12,7 +12,7 @@ public class InteractiveObject : MonoBehaviour
     [SerializeField] private Dialogue dialogue2;
     [SerializeField] private Dialogue dialogue3;
     private Item item = null;
-    private bool test = false;
+    private bool firstTrigger = true;
     private bool hasRequiredItem;        
 
 
@@ -42,18 +42,26 @@ public class InteractiveObject : MonoBehaviour
     }
 
     public void TriggerDialogue()
-    {        
-        if (test)
+    {
+        Dialogue dialogueToTrigger;
+        if (hasRequiredItem)
         {
-            Dialogue d = new Dialogue { sentences = dialogue2.GetSentences()};
-            d.Append(dialogue3.GetSentences());
-            FindObjectOfType<UI_Assistant>().StartDialogue(d);
-            test = false;
+            if (firstTrigger)
+            {
+                dialogueToTrigger = new Dialogue { sentences = dialogue2.GetSentences() };
+                dialogueToTrigger.Append(dialogue3.GetSentences());
+                firstTrigger = false;
+            }
+            else
+            {
+                dialogueToTrigger = dialogue2;
+            }                      
         }
-        else if(hasRequiredItem)
-            FindObjectOfType<UI_Assistant>().StartDialogue(dialogue2);
         else
-            FindObjectOfType<UI_Assistant>().StartDialogue(dialogue1);
+        {
+            dialogueToTrigger = dialogue1;
+        }
+        FindObjectOfType<UI_Assistant>().StartDialogue(dialogueToTrigger);
     }
 
     public void Unlock()
@@ -64,15 +72,7 @@ public class InteractiveObject : MonoBehaviour
         {
             GameManager.GetInstance().SetWorldState("GateOpen", true);
         }
-    }
-
-    public void Fuck(bool ya)
-    {
-        if (ya && test)
-            test = false;
-        else 
-            test = ya;
-    }
+    }    
 
     public Item GetItem()
     {
