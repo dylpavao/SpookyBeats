@@ -149,7 +149,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &73393497
 MonoBehaviour:
@@ -3810,31 +3810,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AudioManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 6587000709993138737, guid: 70efb87bf211762498c04316fb910fc3,
-        type: 3}
-      propertyPath: sounds.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6587000709993138737, guid: 70efb87bf211762498c04316fb910fc3,
-        type: 3}
-      propertyPath: sounds.Array.data[0].clip
-      value: 
-      objectReference: {fileID: 8300000, guid: 01a9ee3ce869ab0498253389d6b23f49, type: 3}
-    - target: {fileID: 6587000709993138737, guid: 70efb87bf211762498c04316fb910fc3,
-        type: 3}
-      propertyPath: sounds.Array.data[0].name
-      value: Beat
-      objectReference: {fileID: 0}
-    - target: {fileID: 6587000709993138737, guid: 70efb87bf211762498c04316fb910fc3,
-        type: 3}
-      propertyPath: sounds.Array.data[0].volume
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6587000709993138737, guid: 70efb87bf211762498c04316fb910fc3,
-        type: 3}
-      propertyPath: sounds.Array.data[0].pitch
-      value: 1.75
       objectReference: {fileID: 0}
     - target: {fileID: 6587000709993138738, guid: 70efb87bf211762498c04316fb910fc3,
         type: 3}

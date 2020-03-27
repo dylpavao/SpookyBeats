@@ -16,6 +16,8 @@ public class UI_Assistant : MonoBehaviour //make SINGLETON
     private Inventory inventory;
     private readonly string[] pauseMenuItems = new string[] { "Inventory", "Stats", "Save", "Quit" };
     private string[] menuText;
+    private bool typing;
+    private string currentSentence;
 
     private void Awake()
     {
@@ -85,7 +87,7 @@ public class UI_Assistant : MonoBehaviour //make SINGLETON
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (inDialogue)
-            {
+            {                
                 bool endOfDialogue = DisplayNextSentence();                
                 if (endOfDialogue && Player.GetInstance().HasInteractiveObject())
                 {
@@ -141,6 +143,7 @@ public class UI_Assistant : MonoBehaviour //make SINGLETON
 
     public void StartDialogue(Dialogue dialogue)
     {
+        FindObjectOfType<AudioManager>().Play("Click");
         Player.GetInstance().SetMoveable(false);
         sentences.Clear();
         inDialogue = true;
@@ -154,28 +157,40 @@ public class UI_Assistant : MonoBehaviour //make SINGLETON
     }
 
     public bool DisplayNextSentence()
-    {        
-        if(sentences.Count == 0)
+    {
+        FindObjectOfType<AudioManager>().Play("Click");
+        if (typing)
         {
-            EndDialogue();            
+            StopAllCoroutines();
+            messageText.text = currentSentence;
+            typing = false;
+            return false;
+        }
+        else if(sentences.Count == 0)
+        {
+            EndDialogue();
             return true;
         }
-
-        string sentence = sentences.Dequeue();        
-        StopAllCoroutines();        
-        StartCoroutine(TypeSentence(sentence));
-        return false;
+        else
+        {
+            string sentence = sentences.Dequeue();
+            currentSentence = sentence;
+            StopAllCoroutines();
+            StartCoroutine(TypeSentence(sentence));
+            return false;
+        }                        
     }
 
     IEnumerator TypeSentence (string sentence)
     {
         messageText.text = "";
-
+        typing = true;
         foreach(char letter in sentence.ToCharArray())
         {
             messageText.text += letter;            
             yield return new WaitForSeconds(0.025f);
         }
+        typing = false;
     }
 
     public void AppendDialogue(Dialogue dialogue)

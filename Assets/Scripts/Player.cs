@@ -127,7 +127,7 @@ public class Player : MovingObject
                 }
                 currentInterObj = null;
                 currentInterObjScript = null;                                           
-            }                            
+            }            
         }
     }    
 

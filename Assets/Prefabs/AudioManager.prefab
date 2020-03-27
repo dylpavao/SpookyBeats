@@ -43,4 +43,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51dcb8ea39ee0154a876b3a743e14f36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sounds: []
+  sounds:
+  - name: Beat
+    clip: {fileID: 8300000, guid: 01a9ee3ce869ab0498253389d6b23f49, type: 3}
+    volume: 1
+    pitch: 1.75
+    source: {fileID: 0}
+  - name: Click
+    clip: {fileID: 8300000, guid: 3447017edb2cc4d4d8acbdbea9d1f19d, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
