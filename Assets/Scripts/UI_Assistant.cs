@@ -67,9 +67,13 @@ public class UI_Assistant : MonoBehaviour //make SINGLETON
             if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A))
             {
                 if (menuCursor != 0)
+                {
                     menuCursor--;
+                    FindObjectOfType<AudioManager>().Play("Click");
 
+                }                    
                 UpdateMenu();
+
             }
             else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D))
             {
@@ -78,6 +82,7 @@ public class UI_Assistant : MonoBehaviour //make SINGLETON
                     if (menuText[menuCursor + 1] != "")
                     {
                         menuCursor++;
+                        FindObjectOfType<AudioManager>().Play("Click");
                     }
                 }
                 UpdateMenu();
@@ -143,7 +148,7 @@ public class UI_Assistant : MonoBehaviour //make SINGLETON
 
     public void StartDialogue(Dialogue dialogue)
     {
-        FindObjectOfType<AudioManager>().Play("Click");
+        FindObjectOfType<AudioManager>().Play("Accept");
         Player.GetInstance().SetMoveable(false);
         sentences.Clear();
         inDialogue = true;
@@ -158,7 +163,7 @@ public class UI_Assistant : MonoBehaviour //make SINGLETON
 
     public bool DisplayNextSentence()
     {
-        FindObjectOfType<AudioManager>().Play("Click");
+        FindObjectOfType<AudioManager>().Play("Accept");
         if (typing)
         {
             StopAllCoroutines();
@@ -212,12 +217,13 @@ public class UI_Assistant : MonoBehaviour //make SINGLETON
     {
         if (inMenu)
         {
+            FindObjectOfType<AudioManager>().Play("MenuClose");
             inMenu = false;
-            Player.GetInstance().SetMoveable(true);
+            Player.GetInstance().SetMoveable(true);            
         }
         else
         {
-            //Player.GetInstance().ClearInteractiveObject();
+            FindObjectOfType<AudioManager>().Play("MenuOpen");            
             Player.GetInstance().SetMoveable(false);
             inMenu = true;
             menuCursor = 0;

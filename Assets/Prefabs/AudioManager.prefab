@@ -54,3 +54,23 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     source: {fileID: 0}
+  - name: Accept
+    clip: {fileID: 8300000, guid: 937f0c0194d74f94bbd3128319acc2fa, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: MenuOpen
+    clip: {fileID: 8300000, guid: 75f40c8dbb2b1994dba19b27e3dbcb01, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: MenuClose
+    clip: {fileID: 8300000, guid: 6fe2059a41660a5458ccea0d11d40a2d, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: ObtainItem
+    clip: {fileID: 8300000, guid: 1b45f72871fea6744a6fc85d6c37712e, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
