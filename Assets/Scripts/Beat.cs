@@ -31,7 +31,7 @@ public class Beat : MonoBehaviour
             }
             if (side == "right")
             {
-                transform.position += Vector3.left * speed * Time.deltaTime;
+                transform.position += Vector3.left * speed * Time.deltaTime;               
                 if (transform.position.x <= 0)
                 {
                     active = false;

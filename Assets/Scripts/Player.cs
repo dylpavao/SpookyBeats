@@ -38,8 +38,7 @@ public class Player : MovingObject
         currentMana = 0;
         state = null;
         animator = GameObject.Find("PlayerGraphics").GetComponent<Animator>(); // put in parent class?                                                                           
-        inventory = new Inventory();
-        //GameObject.Find("UI_Assistant").GetComponent<UI_Assistant>().SetInventory(inventory); //change UI_Assistant access
+        inventory = new Inventory();        
         base.Start();        
 
         DontDestroyOnLoad(gameObject);
@@ -57,16 +56,7 @@ public class Player : MovingObject
                 UpdateManaBar();
                 firstUpdate = false;
             }
-
-            if (Input.GetKeyDown(KeyCode.Space) && FindObjectOfType<UI_Assistant>().InDialogue())
-            {
-                bool endOfDialogue = GameObject.Find("UI_Assistant").GetComponent<UI_Assistant>().DisplayNextSentence();
-
-                if (endOfDialogue)
-                {
-                    FindObjectOfType<BeatKeeper>().SetRunning(true);
-                }
-            }
+           
             else
             {
                 string action = null;

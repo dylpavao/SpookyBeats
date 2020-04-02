@@ -47,8 +47,8 @@ public class BeatKeeper : MonoBehaviour
             x1 -= 2;
             x2 += 2;
         }
-        enemy = GameObject.Find("Enemy").GetComponent<Enemy>();
-        player = GameObject.Find("Player").GetComponent<Player>();
+        enemy = FindObjectOfType<Enemy>();
+        player = FindObjectOfType<Player>();
     }
 
     // Update is called once per frame
@@ -80,7 +80,7 @@ public class BeatKeeper : MonoBehaviour
             {
                 // enact moves
                 enacted = true;
-                enemy.EnactMove();
+                //enemy.EnactMove();
                 player.EnactMove();
             }
         }        
@@ -127,6 +127,14 @@ public class BeatKeeper : MonoBehaviour
     public void SetRunning(bool running)
     {
         this.running = running;
+        if (running)
+        {
+            // play song
+        }
+        else
+        {
+            // stop song
+        }
     }
 
     public bool IsRunning()

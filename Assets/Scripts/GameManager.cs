@@ -100,20 +100,28 @@ public class GameManager : MonoBehaviour
         }
         else if(activeScene.name == "Battle")
         {
-            Dialogue battleText = new Dialogue();
-            string[] sentences = new string[9];
-            sentences[0] = "Before we fight I wanted to give you a few pointers for your first battle.";
-            sentences[1] = "We will fight to a beat, you win if you can deplete my health bar. You lose if I deplete yours.";
-            sentences[2] = "You can keep track of the beat with the sound, or the colliding bars at the bottom of the screen.";
-            sentences[3] = "Your first step is to build up energy, which is done by pressing 'W' - in time with the beat, of course.";
-            sentences[4] = "You gain 1 energy every time you press 'W', energy is used for attacking and healing.";
-            sentences[5] = "To attack press 'D', this will damage the enemy by 1 point if they are not blocking.";
-            sentences[6] = "To heal press 'A', this will recover 1 health each time it is used.";
-            sentences[7] = "Both attacking and healing cost 1 energy per use.";
-            sentences[8] = "Lastly, you can block with 'S' which protects you from damage, you do not need energy to block.";
-            sentences[8] = "That is it, the battle will begin when you are ready. Good luck!";
-            battleText.sentences = sentences;
-            FindObjectOfType<UI_Assistant>().StartDialogue(battleText);
+            FindObjectOfType<BeatKeeper>().SetRunning(true);
+            if (FindObjectOfType<Enemy>().name == "Enemy")
+            {
+                Dialogue battleText = new Dialogue();
+                string[] sentences = new string[9];
+                sentences[0] = "Before we fight I wanted to give you a few pointers for your first battle.";
+                sentences[1] = "We will fight to a beat, you win if you can deplete my health bar. You lose if I deplete yours.";
+                sentences[2] = "You can keep track of the beat with the sound, or the colliding bars at the bottom of the screen.";
+                sentences[3] = "Your first step is to build up energy, which is done by pressing 'W' - in time with the beat, of course.";
+                sentences[4] = "You gain 1 energy every time you press 'W', energy is used for attacking and healing.";
+                sentences[5] = "To attack press 'D', this will damage the enemy by 1 point if they are not blocking.";
+                sentences[6] = "To heal press 'A', this will recover 1 health each time it is used.";
+                sentences[7] = "Both attacking and healing cost 1 energy per use.";
+                sentences[8] = "Lastly, you can block with 'S' which protects you from damage, you do not need energy to block.";
+                sentences[8] = "That is it, the battle will begin when you are ready. Good luck!";
+                battleText.sentences = sentences;
+                //FindObjectOfType<UI_Assistant>().StartDialogue(battleText, UI_Assistant.DialogueType.Battle);
+            }
+            else
+            {
+                FindObjectOfType<BeatKeeper>().SetRunning(true);
+            }
         }
     }    
 

@@ -18,6 +18,12 @@ public class UI_Assistant : MonoBehaviour //make SINGLETON
     private string[] menuText;
     private bool typing;
     private string currentSentence;
+    private DialogueType currentDlog;
+
+    public enum DialogueType
+    {
+        Default, Item, Battle
+    }
 
     private void Awake()
     {
@@ -94,13 +100,28 @@ public class UI_Assistant : MonoBehaviour //make SINGLETON
             if (inDialogue)
             {                
                 bool endOfDialogue = DisplayNextSentence();                
-                if (endOfDialogue && Player.GetInstance().HasInteractiveObject())
+                if (endOfDialogue && Player.GetInstance().HasInteractiveObject()) 
                 {
-                    if(Player.GetInstance().GetInteractiveObject().GetComponent<InteractiveObject>().IsItem() && !inMenu)
+                    InteractiveObject interObjScript = Player.GetInstance().GetInteractiveObjectScript();
+                    inventory = Player.GetInstance().GetInventory();
+
+                    
+                    if (interObjScript.NeedsItem() && inventory.HasItem(interObjScript.NeededItem()))
+                    {                        
+                        if (interObjScript.GivesItem())
+                        {
+                            inventory.RemoveItem(interObjScript.NeededItem());
+                            inventory.AddItem(interObjScript.GetItem());
+                        }
+                    }
+
+                    if (interObjScript.IsItem()) // deletes items after message dissapears #####
                     {
+                        inventory.AddItem(interObjScript.GetItem());
                         Destroy(Player.GetInstance().GetInteractiveObject());                        
                     }
-                    inventory.CheckKeys();
+
+                    inventory.CheckKeys(); // move
                 }                
             }
             else if (inMenu)
@@ -116,45 +137,40 @@ public class UI_Assistant : MonoBehaviour //make SINGLETON
                     }
                     else
                     {
-                        string[] test = new string[] { "Doug's inventory is empty..." };
+                        string[] test = new string[] { "Doug's inventory is empty..." }; // create dialogue method, return dialougue as param for StartDialogue()
                         Dialogue d = new Dialogue { sentences = test };
-                        StartDialogue(d);
+                        StartDialogue(d, DialogueType.Default);
                     }
                 }
             }            
             else if (Player.GetInstance().GetInteractiveObject() != null)
             {
                 InteractiveObject interObjScript = Player.GetInstance().GetInteractiveObjectScript();
-                inventory = Player.GetInstance().GetInventory();
 
-                if (interObjScript.IsItem())
-                {
-                    inventory.AddItem(interObjScript.GetItem());
-                }
-                else if (interObjScript.NeedsItem() && inventory.HasItem(interObjScript.NeededItem()))
+                if (interObjScript.NeedsItem() && inventory.HasItem(interObjScript.NeededItem()))
                 {
                     interObjScript.Unlock();
-                    if (interObjScript.GivesItem())
-                    {
-                        inventory.RemoveItem(interObjScript.NeededItem());
-                        inventory.AddItem(interObjScript.GetItem());
-                    }                    
-                }                                                               
+                }
 
-                interObjScript.TriggerDialogue();
+                interObjScript.TriggerDialogue();                
             }
         }
     }    
 
-    public void StartDialogue(Dialogue dialogue)
+    public void StartDialogue(Dialogue dialogue, DialogueType type)
     {
-        FindObjectOfType<AudioManager>().Play("Accept");
+        currentDlog = type;
+
+        if (currentDlog == DialogueType.Default)
+            FindObjectOfType<AudioManager>().Play("Accept");
+        else if(currentDlog == DialogueType.Item)
+            FindObjectOfType<AudioManager>().Play("ObtainItem");        
+
         Player.GetInstance().SetMoveable(false);
         sentences.Clear();
         inDialogue = true;
         foreach (string sentence in dialogue.sentences)
-        {
-            Debug.Log(sentence);
+        {            
             sentences.Enqueue(sentence);            
         }
         message.SetActive(true);
@@ -210,7 +226,12 @@ public class UI_Assistant : MonoBehaviour //make SINGLETON
     {               
         inDialogue = false;
         message.SetActive(false);
-        Player.GetInstance().SetMoveable(true);
+
+        if (currentDlog == DialogueType.Battle)
+            FindObjectOfType<BeatKeeper>().SetRunning(true);
+        else
+            Player.GetInstance().SetMoveable(true);
+                
     }
 
     public void ToggleMenu()

@@ -86,7 +86,7 @@ public class Enemy : MovingObject
     {
         int move = Random.Range(0, states.Length);              
         state = states[move];
-        animator.SetBool(state, true);       
+        //animator.SetBool(state, true);       
     }
 
     public void EnactMove()
@@ -140,7 +140,7 @@ public class Enemy : MovingObject
             currentHealth -= dmg;
             UpdateHealthBar();
             animator.SetBool("Damaged", true);
-
+            Debug.Log("Enemy Hit");
             if (currentHealth == 0)
             {
                 //player wins

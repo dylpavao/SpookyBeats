@@ -20,7 +20,7 @@ public class Inventory
     }
 
     public void AddItem(Item item)
-    {
+    {       
         itemList.Add(item);
 
         switch (item.itemType)
@@ -44,6 +44,12 @@ public class Inventory
                 GameManager.GetInstance().SetWorldState("GarlicObtained", true);
                 break;
         }
+
+        // spawn dialogue
+        string[] test = new string[] { "Testing 1", "Testing 2" };
+        Dialogue d = new Dialogue { sentences = test };
+        GameObject.Find("UI_Assistant").GetComponent<UI_Assistant>().StartDialogue(d, UI_Assistant.DialogueType.Item);        
+        
 
         //CheckKeys();
     }
@@ -105,9 +111,9 @@ public class Inventory
             RemoveItem(ItemType.BlueKey);
             RemoveItem(ItemType.YellowKey);
             AddItem(new Item { itemType = ItemType.MegaKey, amount = 1, itemName = "Mega Key"});
-            string[] test = new string[] { "The Mega Key was created!", "The Mega Key was added to Doug's inventory." };
-            Dialogue d = new Dialogue { sentences = test };
-            GameObject.Find("UI_Assistant").GetComponent<UI_Assistant>().StartDialogue(d);
+            //string[] test = new string[] { "The Mega Key was created!", "The Mega Key was added to Doug's inventory." };
+            //Dialogue d = new Dialogue { sentences = test };
+            //GameObject.Find("UI_Assistant").GetComponent<UI_Assistant>().StartDialogue(d);
         }
     }
 

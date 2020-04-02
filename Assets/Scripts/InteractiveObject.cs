@@ -42,26 +42,16 @@ public class InteractiveObject : MonoBehaviour
     }
 
     public void TriggerDialogue()
-    {
-        Dialogue dialogueToTrigger;
+    {        
         if (hasRequiredItem)
         {
-            if (firstTrigger)
-            {
-                dialogueToTrigger = new Dialogue { sentences = dialogue2.GetSentences() };
-                dialogueToTrigger.Append(dialogue3.GetSentences());
-                firstTrigger = false;
-            }
-            else
-            {
-                dialogueToTrigger = dialogue2;
-            }                      
+            FindObjectOfType<UI_Assistant>().StartDialogue(dialogue2, UI_Assistant.DialogueType.Default);
         }
         else
         {
-            dialogueToTrigger = dialogue1;
+            FindObjectOfType<UI_Assistant>().StartDialogue(dialogue1, UI_Assistant.DialogueType.Default);
         }
-        FindObjectOfType<UI_Assistant>().StartDialogue(dialogueToTrigger);
+        
     }
 
     public void Unlock()
