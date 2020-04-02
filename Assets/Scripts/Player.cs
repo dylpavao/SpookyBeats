@@ -16,9 +16,7 @@ public class Player : MovingObject
     private Inventory inventory;
     private GameObject currentInterObj;
     private InteractiveObject currentInterObjScript;
-
     private Vector3 overworldPosition;
-
     private static Player instance;
 
     // Start is called before the first frame update
@@ -82,11 +80,10 @@ public class Player : MovingObject
                     
                 }
 
-
                 if (action != null && FindObjectOfType<BeatKeeper>().HitBeat())
-                {
-                    animator.SetBool(action, true);
+                {                    
                     state = action;
+                    EnactMove();
                 }                    
             }           
 
@@ -180,32 +177,32 @@ public class Player : MovingObject
     }
 
     public void EnactMove()
-    {
+    {            
         if (state == "Attacking" && currentMana > 0)
         {
+            animator.SetBool(state, true);
             currentMana--;
-            UpdateManaBar();
-            GameObject.Find("Enemy").GetComponent<Enemy>().TakeDamage(1);
+            UpdateManaBar();            
+            FindObjectOfType<Enemy>().TakeDamage(1);
         }
         else if (state == "Charging" && currentMana < maxMana)
         {
+            animator.SetBool(state, true);
             currentMana++;
             UpdateManaBar();
         }
         else if (state == "Healing" && currentMana > 0 && currentHealth < maxHealth)
-        {
+        {            
+            animator.SetBool(state, true);
             currentMana--;
             currentHealth++;
             UpdateManaBar();
             UpdateHealthBar();
         }
-
-
-        animator.SetBool("Charging",false);
-        animator.SetBool("Healing", false);
-        animator.SetBool("Attacking", false);
-        animator.SetBool("Blocking", false);
-       
+        else if(state == "Blocking")
+        {
+            animator.SetBool(state, true);
+        }        
     }
     
     private void UpdateManaBar()
@@ -223,11 +220,10 @@ public class Player : MovingObject
     public void TakeDamage(int dmg)
     {
         if (state != "Blocking")
-        {            
-            currentHealth -= dmg; // prevent negative health            
-            UpdateHealthBar();
+        {
             animator.SetBool("Damaged", true);
-
+            currentHealth -= dmg; // prevent negative health            
+            UpdateHealthBar();            
             if (currentHealth == 0)
             {
                 //game over                
@@ -288,6 +284,11 @@ public class Player : MovingObject
     public void ResetState()
     {
         state = null;
+        animator.SetBool("Charging", false);
+        animator.SetBool("Healing", false);
+        animator.SetBool("Attacking", false);
+        animator.SetBool("Blocking", false);
+        //animator.SetBool("Damaged", false);
     }
 
     public static Player GetInstance()

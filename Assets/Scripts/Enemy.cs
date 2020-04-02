@@ -13,7 +13,6 @@ public class Enemy : MovingObject
     private string state;
     private Animator animator;
     private readonly string[] states = new string[] { "Attacking", "Charging", "Blocking", "Healing" };
-    private static Enemy instance;
     private bool firstUpdate = true; 
 
     // Start is called before the first frame update
@@ -40,10 +39,9 @@ public class Enemy : MovingObject
             float y1 = transform.position.y - range;
             float y2 = transform.position.y + range;
 
+            //Checks if player is in range, moves towards player if so
             if (playerPos.x >= x1 && playerPos.x <= x2 && playerPos.y >= y1 && playerPos.y <= y2)
-            {
-                //Debug.Log("Player in range");
-
+            {                
                 int yDir = 0;
                 int xDir = 0;
                 if (playerPos.x > transform.position.x)
@@ -84,36 +82,38 @@ public class Enemy : MovingObject
 
     public void ChooseMove()
     {
-        int move = Random.Range(0, states.Length);              
-        state = states[move];
-        //animator.SetBool(state, true);       
+        int move = Random.Range(0, states.Length);
+        state = states[move];                       
     }
 
     public void EnactMove()
-    {
+    {        
         //create enums for states
         if (state == "Attacking" && currentMana > 0)
-        {           
+        {
+            animator.SetBool(state, true);
             currentMana--;
             UpdateManaBar();
             Player.GetInstance().TakeDamage(1);
         }
         else if (state == "Charging" && currentMana < maxMana)
         {
+            animator.SetBool(state, true);
             currentMana++;
             UpdateManaBar();
         }
         else if (state == "Healing" && currentMana > 0 && currentHealth < maxHealth)
         {
+            animator.SetBool(state, true);
             currentMana--;
             currentHealth++;
             UpdateManaBar();
             UpdateHealthBar();
         }
-        animator.SetBool("Charging", false);
-        animator.SetBool("Healing", false);
-        animator.SetBool("Attacking", false);
-        animator.SetBool("Blocking", false);
+        else if (state == "Blocking")
+        {
+            animator.SetBool(state, true);
+        }        
     }
 
     private void UpdateManaBar()
@@ -131,24 +131,29 @@ public class Enemy : MovingObject
     public void ResetState()
     {
         state = null;
+        animator.SetBool("Charging", false);
+        animator.SetBool("Healing", false);
+        animator.SetBool("Attacking", false);
+        animator.SetBool("Blocking", false);
+        //animator.SetBool("Damaged", false);
     }
 
     public void TakeDamage(int dmg)
     {
         if (state != "Blocking")
-        {                 
+        {            
+            animator.SetBool("Damaged", true);            
             currentHealth -= dmg;
-            UpdateHealthBar();
-            animator.SetBool("Damaged", true);
-            Debug.Log("Enemy Hit");
+            UpdateHealthBar();                        
             if (currentHealth == 0)
             {
                 //player wins
+                FindObjectOfType<Player>().ResetState();
                 GameManager.GetInstance().SetWorldState("GruntDead", true);                
                 Loader.Load(SceneName.Overworld, Player.GetInstance().OverworldPosition());
             }
         }
-    }
+    }    
 
     public void PrepareForBattle()
     {

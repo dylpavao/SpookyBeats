@@ -41,6 +41,15 @@ Tilemap:
   m_GameObject: {fileID: 1438076027105001165}
   m_Enabled: 1
   m_Tiles:
+  - first: {x: -1, y: -5, z: 0}
+    second:
+      m_TileIndex: 37
+      m_TileSpriteIndex: 37
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_ObjectToInstantiate: {fileID: 0}
+      m_TileFlags: 1
+      m_ColliderType: 1
   - first: {x: 2, y: -5, z: 0}
     second:
       m_TileIndex: 28
@@ -59,6 +68,33 @@ Tilemap:
       m_ObjectToInstantiate: {fileID: 0}
       m_TileFlags: 1
       m_ColliderType: 1
+  - first: {x: -1, y: -4, z: 0}
+    second:
+      m_TileIndex: 34
+      m_TileSpriteIndex: 34
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_ObjectToInstantiate: {fileID: 0}
+      m_TileFlags: 1
+      m_ColliderType: 1
+  - first: {x: 0, y: -4, z: 0}
+    second:
+      m_TileIndex: 35
+      m_TileSpriteIndex: 35
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_ObjectToInstantiate: {fileID: 0}
+      m_TileFlags: 1
+      m_ColliderType: 1
+  - first: {x: 1, y: -4, z: 0}
+    second:
+      m_TileIndex: 36
+      m_TileSpriteIndex: 36
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_ObjectToInstantiate: {fileID: 0}
+      m_TileFlags: 1
+      m_ColliderType: 1
   - first: {x: 2, y: -4, z: 0}
     second:
       m_TileIndex: 25
@@ -72,6 +108,33 @@ Tilemap:
     second:
       m_TileIndex: 26
       m_TileSpriteIndex: 26
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_ObjectToInstantiate: {fileID: 0}
+      m_TileFlags: 1
+      m_ColliderType: 1
+  - first: {x: -1, y: -3, z: 0}
+    second:
+      m_TileIndex: 31
+      m_TileSpriteIndex: 31
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_ObjectToInstantiate: {fileID: 0}
+      m_TileFlags: 1
+      m_ColliderType: 1
+  - first: {x: 0, y: -3, z: 0}
+    second:
+      m_TileIndex: 32
+      m_TileSpriteIndex: 32
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_ObjectToInstantiate: {fileID: 0}
+      m_TileFlags: 1
+      m_ColliderType: 1
+  - first: {x: 1, y: -3, z: 0}
+    second:
+      m_TileIndex: 33
+      m_TileSpriteIndex: 33
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
@@ -384,6 +447,20 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: 0e8213f7992be674eba3c07ab9fce5d6, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 54f19032fe7f4264b803b2d1656f3270, type: 2}
+  - m_RefCount: 1
+    m_Data: {fileID: 11400000, guid: 893893956082e1d43a964c3232ff8c36, type: 2}
+  - m_RefCount: 1
+    m_Data: {fileID: 11400000, guid: aa7d4df5b4849974e89ab0cd4b1f7f58, type: 2}
+  - m_RefCount: 1
+    m_Data: {fileID: 11400000, guid: 0cbea276ba36f53408a6d754348151ce, type: 2}
+  - m_RefCount: 1
+    m_Data: {fileID: 11400000, guid: 941c0191ba562f549a3bfcce5837197c, type: 2}
+  - m_RefCount: 1
+    m_Data: {fileID: 11400000, guid: 3188c0b32cf9e254c87519b1bdc11ec4, type: 2}
+  - m_RefCount: 1
+    m_Data: {fileID: 11400000, guid: 4891ba6436a856b41ab6c63f4485a2e2, type: 2}
+  - m_RefCount: 1
+    m_Data: {fileID: 11400000, guid: f465c428ef509094f81aeced353ca999, type: 2}
   m_TileSpriteArray:
   - m_RefCount: 1
     m_Data: {fileID: -1881519487255436877, guid: 3b07ab3381b224d489a05a2146227610,
@@ -471,8 +548,22 @@ Tilemap:
     m_Data: {fileID: 21300000, guid: cfe215395fff17f4ba94c6cdbc0a77d5, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 21300000, guid: c54a0f8b58ab35a46943352d1898328a, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: 21300000, guid: daabd15dd78d33c4d975dba4e567e42b, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: 21300000, guid: 716dbf624e4656943af99558467f0581, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: 21300000, guid: 08299efb02442ec4ebc20c209602e97b, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: 21300000, guid: 38e218a27ff82d2458344e1fd8c9e220, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: 21300000, guid: 494d87be8b6d7184987195d51f1c2e18, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: 21300000, guid: d3799eb8ef7c6724f869ffa17a8ab47a, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: 21300000, guid: f321429502d58104fa9ff302de9368c9, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 31
+  - m_RefCount: 38
     m_Data:
       e00: 1
       e01: 0
@@ -491,7 +582,7 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 31
+  - m_RefCount: 38
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   - m_RefCount: 0
     m_Data: {r: 7.768293e-19, g: 7.768293e-19, b: 7.768293e-19, a: 7.768293e-19}

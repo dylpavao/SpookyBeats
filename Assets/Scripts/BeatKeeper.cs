@@ -14,7 +14,6 @@ public class BeatKeeper : MonoBehaviour
     private float graceLower, graceUpper;  //in seconds    
     private bool beatHit;
     private bool playedBeat;
-    private bool enacted;
     private Enemy enemy;
     private Player player;
     private Queue<Beat[]> beats;
@@ -25,15 +24,14 @@ public class BeatKeeper : MonoBehaviour
     {
         Time.timeScale = 1f;
 
-        bpm = 100f;
+        bpm = 90f;
         timeBetweenBeats = 60f / bpm;
         gracePeriod = timeBetweenBeats / 2f;
         timeRunning = gracePeriod;
         graceLower = timeBetweenBeats - gracePeriod / 2f;
         graceUpper = timeBetweenBeats + gracePeriod / 2f;
         beatHit = false;
-        playedBeat = false;
-        enacted = false;
+        playedBeat = false;        
         running = false;
         //Debug.Log("TBB: "+timeBetweenBeats+" GP: "+gracePeriod+" T1:"+graceLower+" T2: "+graceUpper);
 
@@ -62,11 +60,12 @@ public class BeatKeeper : MonoBehaviour
             {
                 timeRunning -= timeBetweenBeats;
                 beatHit = false;
-                playedBeat = false;
-                enacted = false;
+                playedBeat = false;                
                 beats.Dequeue(); // pop cartridge
                 enemy.ResetState();
                 player.ResetState();
+
+                enemy.ChooseMove();
             }
             else if (!playedBeat && timeRunning >= timeBetweenBeats) // play beat sound & spawn new beats offscreen
             {
@@ -74,15 +73,9 @@ public class BeatKeeper : MonoBehaviour
                 SpawnSetOfBeatBars(-12, 12); // load cartridge
                 FindObjectOfType<AudioManager>().Play("Beat");
                 playedBeat = true;
-                enemy.ChooseMove();
-            }
-            else if (!enacted && timeRunning >= graceUpper) // end of grace period
-            {
-                // enact moves
-                enacted = true;
-                //enemy.EnactMove();
-                player.EnactMove();
-            }
+                
+                enemy.EnactMove();
+            }            
         }        
     }
 
