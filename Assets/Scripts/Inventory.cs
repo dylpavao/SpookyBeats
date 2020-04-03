@@ -15,7 +15,10 @@ public class Inventory
     }
 
     public void RemoveItem(ItemType itemToRemove)
-    {
+    {        
+        //string[] test = new string[] { "The " + GetItem(itemToRemove).itemName + " was removed from Doug's inventory."};
+        //Dialogue d = new Dialogue { sentences = test };
+        //GameObject.Find("UI_Assistant").GetComponent<UI_Assistant>().StartDialogue(d, UI_Assistant.DialogueType.Default);
         itemList.Remove(GetItem(itemToRemove));
     }
 
@@ -46,7 +49,7 @@ public class Inventory
         }
 
         // spawn dialogue
-        string[] test = new string[] { "Testing 1", "Testing 2" };
+        string[] test = new string[] { "Doug obtained a "+item.itemName+"!", "Doug put the "+item.itemName+" in his inventory."};
         Dialogue d = new Dialogue { sentences = test };
         GameObject.Find("UI_Assistant").GetComponent<UI_Assistant>().StartDialogue(d, UI_Assistant.DialogueType.Item);        
         

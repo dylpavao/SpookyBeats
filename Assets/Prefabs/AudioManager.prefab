@@ -51,7 +51,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Click
     clip: {fileID: 8300000, guid: 3447017edb2cc4d4d8acbdbea9d1f19d, type: 3}
-    volume: 1
+    volume: 0.25
     pitch: 1
     source: {fileID: 0}
   - name: Accept
@@ -61,16 +61,21 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: MenuOpen
     clip: {fileID: 8300000, guid: 75f40c8dbb2b1994dba19b27e3dbcb01, type: 3}
-    volume: 1
+    volume: 0.5
     pitch: 1
     source: {fileID: 0}
   - name: MenuClose
     clip: {fileID: 8300000, guid: 6fe2059a41660a5458ccea0d11d40a2d, type: 3}
-    volume: 1
+    volume: 0.5
     pitch: 1
     source: {fileID: 0}
   - name: ObtainItem
     clip: {fileID: 8300000, guid: 1b45f72871fea6744a6fc85d6c37712e, type: 3}
+    volume: 0.25
+    pitch: 1
+    source: {fileID: 0}
+  - name: Song
+    clip: {fileID: 8300000, guid: 7ca9789583c8e2246a4aec64cb02a72d, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}

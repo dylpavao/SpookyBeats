@@ -61,23 +61,19 @@ public class Player : MovingObject
 
                 if (Input.GetKeyDown(KeyCode.D))
                 {
-                    action = "Attacking";
-                    
+                    action = "Attacking";                    
                 }
                 else if (Input.GetKeyDown(KeyCode.W))
                 {
-                    action = "Charging";
-                    
+                    action = "Charging";                    
                 }
                 else if (Input.GetKeyDown(KeyCode.S))
                 {
-                    action = "Blocking";
-                    
+                    action = "Blocking";                    
                 }
                 else if (Input.GetKeyDown(KeyCode.A))
                 {
-                    action = "Healing";
-                    
+                    action = "Healing";                    
                 }
 
                 if (action != null && FindObjectOfType<BeatKeeper>().HitBeat())

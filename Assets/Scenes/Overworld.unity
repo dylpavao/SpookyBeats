@@ -8077,8 +8077,7 @@ MonoBehaviour:
   givesItem: 3
   dialogue1:
     sentences:
-    - Doug found an Apple!
-    - Doug put the Apple in his inventory!
+    - Doug rustles through the bush...
   dialogue2:
     sentences: []
   dialogue3:
@@ -23749,12 +23748,12 @@ PrefabInstance:
     - target: {fileID: 7343955193870920661, guid: 1ae63489da073b145b75c00dfcef4127,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.5
+      value: -7.5
       objectReference: {fileID: 0}
     - target: {fileID: 7343955193870920661, guid: 1ae63489da073b145b75c00dfcef4127,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -10.5
+      value: -2.5
       objectReference: {fileID: 0}
     - target: {fileID: 7343955193870920661, guid: 1ae63489da073b145b75c00dfcef4127,
         type: 3}
@@ -26990,9 +26989,7 @@ MonoBehaviour:
     - Hmmm, an Apple eh? Not one for fruits but this should do.
     - 'Thanks buddy! Good luck with that bastard dog. '
   dialogue3:
-    sentences:
-    - The Apple was removed from Doug's inventory.
-    - The Blue Key was added to Doug's inventory!
+    sentences: []
 --- !u!1 &1366113558
 GameObject:
   m_ObjectHideFlags: 0
@@ -27492,7 +27489,7 @@ MonoBehaviour:
   givesItem: 5
   dialogue1:
     sentences:
-    - Doug found a Yellow Key!
+    - Something glistens behind this stump...
   dialogue2:
     sentences: []
   dialogue3:
@@ -50332,7 +50329,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.3770969, y: -0.38662854}
+  m_Offset: {x: -0.374329, y: -0.38662854}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -50343,7 +50340,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.24412909, y: 0.24437767}
+  m_Size: {x: 0.24966483, y: 0.24437767}
   m_EdgeRadius: 0
 --- !u!61 &2110698597
 BoxCollider2D:
@@ -50358,7 +50355,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.35986266, y: -0.38410974}
+  m_Offset: {x: 0.3617079, y: -0.38410974}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -50369,7 +50366,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.23352379, y: 0.24292532}
+  m_Size: {x: 0.22983329, y: 0.24292529}
   m_EdgeRadius: 0
 --- !u!212 &2110698598
 SpriteRenderer:
@@ -50428,7 +50425,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2110698595}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.95, y: -20.85, z: 0}
+  m_LocalPosition: {x: -8.99, y: -20.85, z: 0}
   m_LocalScale: {x: 8.053528, y: 8.155471, z: 8.155471}
   m_Children: []
   m_Father: {fileID: 0}

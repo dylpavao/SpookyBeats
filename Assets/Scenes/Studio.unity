@@ -1344,8 +1344,7 @@ MonoBehaviour:
   givesItem: 4
   dialogue1:
     sentences:
-    - Doug found Garlic!
-    - Doug put the Garlic in his inventory!
+    - Something stinks in this corner...
   dialogue2:
     sentences: []
   dialogue3:
@@ -2256,7 +2255,7 @@ PrefabInstance:
     - target: {fileID: 344497680565420488, guid: fb7da0a53f4df644499dda41b8bbad14,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 344497680364708758, guid: fb7da0a53f4df644499dda41b8bbad14,
         type: 3}

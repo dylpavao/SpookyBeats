@@ -99,8 +99,7 @@ public class GameManager : MonoBehaviour
             }
         }
         else if(activeScene.name == "Battle")
-        {
-            FindObjectOfType<BeatKeeper>().SetRunning(true);
+        {            
             if (FindObjectOfType<Enemy>().name == "Enemy")
             {
                 Dialogue battleText = new Dialogue();
@@ -116,7 +115,7 @@ public class GameManager : MonoBehaviour
                 sentences[8] = "Lastly, you can block with 'S' which protects you from damage, you do not need energy to block.";
                 sentences[8] = "That is it, the battle will begin when you are ready. Good luck!";
                 battleText.sentences = sentences;
-                //FindObjectOfType<UI_Assistant>().StartDialogue(battleText, UI_Assistant.DialogueType.Battle);
+                FindObjectOfType<UI_Assistant>().StartDialogue(battleText, UI_Assistant.DialogueType.Battle);
             }
             else
             {

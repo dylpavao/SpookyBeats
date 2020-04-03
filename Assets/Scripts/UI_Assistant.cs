@@ -144,9 +144,9 @@ public class UI_Assistant : MonoBehaviour //make SINGLETON
                 }
             }            
             else if (Player.GetInstance().GetInteractiveObject() != null)
-            {
-                InteractiveObject interObjScript = Player.GetInstance().GetInteractiveObjectScript();
-
+            {                
+                InteractiveObject interObjScript = Player.GetInstance().GetInteractiveObjectScript();               
+                inventory = Player.GetInstance().GetInventory();
                 if (interObjScript.NeedsItem() && inventory.HasItem(interObjScript.NeededItem()))
                 {
                     interObjScript.Unlock();

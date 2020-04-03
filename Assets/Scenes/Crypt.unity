@@ -1603,9 +1603,7 @@ MonoBehaviour:
     - Thank you for finding my crown, you shall have your reward.
     - I have also opened the gate for you, now go stop the Ghost Gang!
   dialogue3:
-    sentences:
-    - The Crown was removed from Doug's inventory.
-    - A Kazoo was added to Dougs inventory.
+    sentences: []
 --- !u!1 &729961300
 GameObject:
   m_ObjectHideFlags: 0
@@ -1903,8 +1901,7 @@ MonoBehaviour:
   givesItem: 1
   dialogue1:
     sentences:
-    - Doug found the Crown!
-    - Doug put the Crown in his inventory.
+    - Theres something shining under these rocks...
   dialogue2:
     sentences: []
   dialogue3:
@@ -3254,9 +3251,7 @@ MonoBehaviour:
     - It seems to not like the Garlic...
     - The Garlic disintegrates and Red Key slips through the cracks..
   dialogue3:
-    sentences:
-    - Garlic was removed from Doug's inventory.
-    - A Red Key was added to Doug's inventory!
+    sentences: []
 --- !u!1001 &1521973910
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -18,6 +18,7 @@ public class BeatKeeper : MonoBehaviour
     private Player player;
     private Queue<Beat[]> beats;
     private bool running;
+    private bool play;
 
 
     private void Start()
@@ -33,6 +34,7 @@ public class BeatKeeper : MonoBehaviour
         beatHit = false;
         playedBeat = false;        
         running = false;
+        play = false;
         //Debug.Log("TBB: "+timeBetweenBeats+" GP: "+gracePeriod+" T1:"+graceLower+" T2: "+graceUpper);
 
         //Setup Starting Beats On Screen (6 pairs of beats around target)
@@ -53,9 +55,8 @@ public class BeatKeeper : MonoBehaviour
     private void Update()
     {
         if (running)
-        {
-            timeRunning += Time.deltaTime;
-            //Debug.Log(timeRunning);
+        {            
+            timeRunning += Time.deltaTime;            
             if (timeRunning >= timeBetweenBeats + gracePeriod) //end of beat section, reset to new beat section
             {
                 timeRunning -= timeBetweenBeats;
@@ -69,9 +70,15 @@ public class BeatKeeper : MonoBehaviour
             }
             else if (!playedBeat && timeRunning >= timeBetweenBeats) // play beat sound & spawn new beats offscreen
             {
+                if (!play)
+                {
+                    FindObjectOfType<AudioManager>().Play("Song");
+                    play = true;
+                }
+
                 DestroyBeats(0f);
                 SpawnSetOfBeatBars(-12, 12); // load cartridge
-                FindObjectOfType<AudioManager>().Play("Beat");
+                //FindObjectOfType<AudioManager>().Play("Beat");
                 playedBeat = true;
                 
                 enemy.EnactMove();
