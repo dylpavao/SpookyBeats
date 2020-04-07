@@ -1600,8 +1600,8 @@ MonoBehaviour:
     - I do have this measly Kazoo, I'm willing to trade if you find my crown
   dialogue2:
     sentences:
-    - Thank you for finding my crown, you shall have your reward.
-    - I have also opened the gate for you, now go stop the Ghost Gang!
+    - Thank you for finding my crown, I have unlocked the gate for you.
+    - You can have this crusty Kazoo, now go stop the Ghost Gang!
   dialogue3:
     sentences: []
 --- !u!1 &729961300
