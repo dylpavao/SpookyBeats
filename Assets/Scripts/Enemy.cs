@@ -176,7 +176,7 @@ public class Enemy : MovingObject
         animator.SetBool("Healing", false);
         animator.SetBool("Attacking", false);
         animator.SetBool("Blocking", false);
-        //animator.SetBool("Damaged", false);
+        animator.SetBool("Damaged", false);
     }
 
     public void ResetFirstUpdate()
