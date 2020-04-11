@@ -36,18 +36,7 @@ public class UI_Assistant : MonoBehaviour //make SINGLETON
         for(int i = 0; i < menuTextBoxes.Length; i++)
         {
             menuTextBoxes[i] = transform.Find("Menu").Find("Text" + i).GetComponent<Text>();
-        }
-
-        //int d = 0;
-        //menus = new Text[2, 2];
-        //for(int i = 0; i < menuTextBoxes.GetLength(0); i++)
-        //{
-        //    for (int j = 0; j < menuTextBoxes.GetLength(1); j++)
-        //    {
-        //        menus[i,j] = transform.Find("Menu").Find("Text" + d).GetComponent<Text>();
-        //        d++;
-        //    }
-        //}
+        }        
     }
 
     private void Start()
@@ -97,34 +86,34 @@ public class UI_Assistant : MonoBehaviour //make SINGLETON
         
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (inDialogue)
+            if (inDialogue) //Cycle Dialogue
             {                
                 bool endOfDialogue = DisplayNextSentence();                
-                if (endOfDialogue && Player.GetInstance().HasInteractiveObject()) 
+                if (endOfDialogue && Player.GetInstance().HasInteractiveObject()) //End of Dialogue
                 {
                     InteractiveObject interObjScript = Player.GetInstance().GetInteractiveObjectScript();
                     inventory = Player.GetInstance().GetInventory();
 
-                    
-                    if (interObjScript.NeedsItem() && inventory.HasItem(interObjScript.NeededItem()))
-                    {                        
-                        if (interObjScript.GivesItem())
+                    if (Player.GetInstance().GetInteractiveObject().name == "Coffin" && interObjScript.Unlocked()) //Vampire Battle
+                    {
+                        Player.GetInstance().Battle(GameObject.Find("Vampire").GetComponent<Enemy>());
+                    }
+                    else
+                    {   
+                        if (interObjScript.IsItem()) // Pickup Item
+                        {
+                            inventory.AddItem(interObjScript.GetItem());
+                            Destroy(Player.GetInstance().GetInteractiveObject());
+                        }                        
+                        else if (interObjScript.NeedsItem() && interObjScript.GivesItem() && inventory.HasItem(interObjScript.NeededItem())) //Perform Item Trade
                         {
                             inventory.RemoveItem(interObjScript.NeededItem());
                             inventory.AddItem(interObjScript.GetItem());
-                        }
-                    }
-
-                    if (interObjScript.IsItem()) // deletes items after message dissapears #####
-                    {
-                        inventory.AddItem(interObjScript.GetItem());
-                        Destroy(Player.GetInstance().GetInteractiveObject());                        
-                    }
-
-                    inventory.CheckKeys(); // move
+                        }                                                
+                    }                    
                 }                
             }
-            else if (inMenu)
+            else if (inMenu) //Select Menu Option
             {                
                 if (menuText[menuCursor] == "Inventory")
                 {
@@ -143,7 +132,7 @@ public class UI_Assistant : MonoBehaviour //make SINGLETON
                     }
                 }
             }            
-            else if (Player.GetInstance().GetInteractiveObject() != null)
+            else if (Player.GetInstance().GetInteractiveObject() != null) //Interact With Game Object, starts Dialogue
             {                
                 InteractiveObject interObjScript = Player.GetInstance().GetInteractiveObjectScript();               
                 inventory = Player.GetInstance().GetInventory();
@@ -177,6 +166,7 @@ public class UI_Assistant : MonoBehaviour //make SINGLETON
         DisplayNextSentence();             
     }
 
+    //Returns true if its end of dialogue
     public bool DisplayNextSentence()
     {
         FindObjectOfType<AudioManager>().Play("Accept");
@@ -213,15 +203,7 @@ public class UI_Assistant : MonoBehaviour //make SINGLETON
         }
         typing = false;
     }
-
-    public void AppendDialogue(Dialogue dialogue)
-    {
-        foreach (string sentence in dialogue.sentences)
-        {            
-            sentences.Enqueue(sentence);
-        }
-    }
-
+    
     private void EndDialogue()
     {               
         inDialogue = false;

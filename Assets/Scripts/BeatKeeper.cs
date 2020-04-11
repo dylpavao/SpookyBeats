@@ -72,7 +72,7 @@ public class BeatKeeper : MonoBehaviour
             {
                 if (!play)
                 {
-                    FindObjectOfType<AudioManager>().Play("Song");
+                    //FindObjectOfType<AudioManager>().Play("Song");
                     play = true;
                 }
 

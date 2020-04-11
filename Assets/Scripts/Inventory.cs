@@ -9,23 +9,16 @@ public class Inventory
 
     public Inventory()
     {
-        itemList = new List<Item>();
-        //AddItem(new Item { itemType = ItemType.RedKey, amount = 1, itemName = "Red Key" });
-        //AddItem(new Item { itemType = ItemType.BlueKey, amount = 1, itemName = "Blue Key" });
+        itemList = new List<Item>();             
     }
 
     public void RemoveItem(ItemType itemToRemove)
-    {        
-        //string[] test = new string[] { "The " + GetItem(itemToRemove).itemName + " was removed from Doug's inventory."};
-        //Dialogue d = new Dialogue { sentences = test };
-        //GameObject.Find("UI_Assistant").GetComponent<UI_Assistant>().StartDialogue(d, UI_Assistant.DialogueType.Default);
+    {               
         itemList.Remove(GetItem(itemToRemove));
     }
 
     public void AddItem(Item item)
-    {       
-        itemList.Add(item);
-
+    {               
         switch (item.itemType)
         {
             case ItemType.Crown:
@@ -48,13 +41,23 @@ public class Inventory
                 break;
         }
 
-        // spawn dialogue
-        string[] test = new string[] { "Doug obtained a "+item.itemName+"!", "Doug put the "+item.itemName+" in his inventory."};
-        Dialogue d = new Dialogue { sentences = test };
-        GameObject.Find("UI_Assistant").GetComponent<UI_Assistant>().StartDialogue(d, UI_Assistant.DialogueType.Item);        
+        itemList.Add(item);
+        ArrayList message = new ArrayList { "Doug obtained a " + item.itemName + "!", "Doug put the " + item.itemName + " in his inventory." };
         
-
-        //CheckKeys();
+        if (HasItem(ItemType.RedKey) && HasItem(ItemType.BlueKey) && HasItem(ItemType.YellowKey)) //Create Mega Key
+        {            
+            RemoveItem(ItemType.RedKey);
+            RemoveItem(ItemType.BlueKey);
+            RemoveItem(ItemType.YellowKey);
+            message.Add("The Keys begin to glow...");
+            message.Add("It looks as if they are becoming one.");
+            message.Add("Doug obtained the Mega Key!");
+            message.Add("Doug put the Mega Key in his inventory.");
+            itemList.Add(new Item { itemType = ItemType.MegaKey, amount = 1, itemName = "Mega Key" });
+        }
+           
+        Dialogue itemDlog = new Dialogue { sentences = (string[])message.ToArray(typeof(string)) };
+        GameObject.Find("UI_Assistant").GetComponent<UI_Assistant>().StartDialogue(itemDlog, UI_Assistant.DialogueType.Item);                       
     }
 
     public List<Item> ItemList()
@@ -103,21 +106,6 @@ public class Inventory
     public int NumItems()
     {
         return itemList.Count;
-    }
-
-    public void CheckKeys()
-    {        
-        if(HasItem(ItemType.RedKey) && HasItem(ItemType.BlueKey) && HasItem(ItemType.YellowKey))
-        {
-            Debug.Log("Mega Key");
-            RemoveItem(ItemType.RedKey);
-            RemoveItem(ItemType.BlueKey);
-            RemoveItem(ItemType.YellowKey);
-            AddItem(new Item { itemType = ItemType.MegaKey, amount = 1, itemName = "Mega Key"});
-            //string[] test = new string[] { "The Mega Key was created!", "The Mega Key was added to Doug's inventory." };
-            //Dialogue d = new Dialogue { sentences = test };
-            //GameObject.Find("UI_Assistant").GetComponent<UI_Assistant>().StartDialogue(d);
-        }
-    }
+    }    
 
 }

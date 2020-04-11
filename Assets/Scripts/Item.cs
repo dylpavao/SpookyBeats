@@ -12,5 +12,4 @@ public class Item
     public ItemType itemType;    
     public int amount;
     public string itemName;    
-
 }

@@ -30,7 +30,7 @@ public class Player : MovingObject
         }
         instance = this;
 
-        maxHealth = 5;
+        maxHealth = 10;
         currentHealth = maxHealth;
         maxMana = 5;
         currentMana = 0;
@@ -50,11 +50,12 @@ public class Player : MovingObject
         {            
             if (firstUpdate)
             {
+                currentHealth = 10;
+                currentMana = 0;
                 UpdateHealthBar();
                 UpdateManaBar();
                 firstUpdate = false;
-            }
-           
+            }        
             else
             {
                 string action = null;
@@ -84,7 +85,7 @@ public class Player : MovingObject
             }           
 
         }
-        else // in overworld
+        else // in non battle state
         {                     
 
             // Get directional input
@@ -136,7 +137,7 @@ public class Player : MovingObject
         return false;
     }
 
-    private void SetDirection(int horizontal, int vertical)
+    public void SetDirection(int horizontal, int vertical)
     {        
         if (horizontal == 1)
         {
@@ -179,7 +180,7 @@ public class Player : MovingObject
             animator.SetBool(state, true);
             currentMana--;
             UpdateManaBar();            
-            FindObjectOfType<Enemy>().TakeDamage(1);
+            FindObjectOfType<Enemy>().TakeDamage(Random.Range(0,2)+1);
         }
         else if (state == "Charging" && currentMana < maxMana)
         {
@@ -218,7 +219,9 @@ public class Player : MovingObject
         if (state != "Blocking")
         {
             animator.SetBool("Damaged", true);
-            currentHealth -= dmg; // prevent negative health            
+            currentHealth -= dmg;      
+            if (currentHealth < 0)
+                currentHealth = 0;
             UpdateHealthBar();            
             if (currentHealth == 0)
             {
@@ -233,12 +236,7 @@ public class Player : MovingObject
     {
         if (collision.tag == "Enemy")
         {
-            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-            enemy.PrepareForBattle();
-            DisableMovement(true);            
-            SetDirection(1,0);
-            overworldPosition = LastPosition();
-            Loader.Load(SceneName.Battle, new Vector3(-1.5f, 4.5f, 0));            
+            Battle(collision.gameObject.GetComponent<Enemy>());                  
         }
         else if (collision.tag == "Door")
         {
@@ -260,6 +258,15 @@ public class Player : MovingObject
         }
     }    
 
+    public void Battle(Enemy enemy)
+    {        
+        enemy.PrepareForBattle();
+        DisableMovement(true);
+        SetDirection(1, 0);
+        overworldPosition = LastPosition();
+        Loader.Load(SceneName.Battle, new Vector3(-1.5f, 4.5f, 0));
+    }
+
     public void SetMoveable(bool moveable)
     {
         if (moveable)
@@ -270,7 +277,12 @@ public class Player : MovingObject
         {
             DisableMovement(false);
         }
-    }    
+    }
+
+    public void SetOverworldPosition(Vector3 pos)
+    {
+        overworldPosition = pos;
+    }
 
     public Vector3 OverworldPosition()
     {
@@ -320,10 +332,5 @@ public class Player : MovingObject
     public bool InBattle()
     {
         return SceneManager.GetActiveScene().name == "Battle";
-    }
-
-    private void OnDestroy()
-    {
-        //Debug.Log("Player Destroyed");
-    }
+    }    
 }

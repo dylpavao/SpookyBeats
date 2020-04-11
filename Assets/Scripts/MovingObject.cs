@@ -118,9 +118,9 @@ public abstract class MovingObject : MonoBehaviour
         destination = dest;
     }
 
-    protected void DisableMovement(bool stopCoroutine)
+    public void DisableMovement(bool stopCoroutine)
     {
-        if (stopCoroutine)
+        if (stopCoroutine && movement != null)
         {
             StopCoroutine(movement);                   
         }            

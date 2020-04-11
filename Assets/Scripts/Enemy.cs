@@ -18,12 +18,22 @@ public class Enemy : MovingObject
     // Start is called before the first frame update
     protected override void Start()
     {        
-        maxHealth = 5;
+        maxHealth = 10;
         currentHealth = maxHealth;
         maxMana = 5;
         currentMana = 0;
         state = null;
-        animator = GameObject.Find("EnemyGraphics").GetComponent<Animator>();
+
+        switch (gameObject.name)
+        {
+            case "Grunt":
+                animator = GameObject.Find("EnemyGraphics").GetComponent<Animator>();
+                break;
+            case "Vampire":
+                animator = gameObject.GetComponent<Animator>();
+                break;
+        }
+
         range = 3;        
         base.Start();
                
@@ -70,7 +80,7 @@ public class Enemy : MovingObject
         }
         else if(SceneManager.GetActiveScene().name == "Battle")
         {
-            if (firstUpdate)            //bandaid solution??
+            if (firstUpdate)           
             {
                 transform.position = new Vector3(1.5f, 4.5f, 0);
                 UpdateHealthBar();
@@ -82,8 +92,18 @@ public class Enemy : MovingObject
 
     public void ChooseMove()
     {
-        int move = Random.Range(0, states.Length);
-        state = states[move];                       
+        if(currentHealth <= 3 && currentMana >= 1)
+        {
+            state = "Healing";
+        }
+        else if(currentMana == 0)
+        {
+            state = "Charging";
+        }
+        else
+        {
+            state = "Attacking";
+        }                            
     }
 
     public void EnactMove()
@@ -91,20 +111,20 @@ public class Enemy : MovingObject
         //create enums for states
         if (state == "Attacking" && currentMana > 0)
         {
-            animator.SetBool(state, true);
+            //animator.SetBool(state, true);
             currentMana--;
             UpdateManaBar();
-            Player.GetInstance().TakeDamage(1);
+            Player.GetInstance().TakeDamage(Random.Range(0, 2)+1);
         }
         else if (state == "Charging" && currentMana < maxMana)
         {
-            animator.SetBool(state, true);
+            //animator.SetBool(state, true);
             currentMana++;
             UpdateManaBar();
         }
         else if (state == "Healing" && currentMana > 0 && currentHealth < maxHealth)
         {
-            animator.SetBool(state, true);
+            //animator.SetBool(state, true);
             currentMana--;
             currentHealth++;
             UpdateManaBar();
@@ -112,7 +132,7 @@ public class Enemy : MovingObject
         }
         else if (state == "Blocking")
         {
-            animator.SetBool(state, true);
+            //animator.SetBool(state, true);
         }        
     }
 
@@ -131,10 +151,10 @@ public class Enemy : MovingObject
     public void ResetState()
     {
         state = null;
-        animator.SetBool("Charging", false);
-        animator.SetBool("Healing", false);
-        animator.SetBool("Attacking", false);
-        animator.SetBool("Blocking", false);
+        //animator.SetBool("Charging", false);
+        //animator.SetBool("Healing", false);
+        //animator.SetBool("Attacking", false);
+        //animator.SetBool("Blocking", false);
         //animator.SetBool("Damaged", false);
     }
 
@@ -142,15 +162,28 @@ public class Enemy : MovingObject
     {
         if (state != "Blocking")
         {            
-            animator.SetBool("Damaged", true);            
+            //animator.SetBool("Damaged", true);            
             currentHealth -= dmg;
+            if (currentHealth < 0)
+                currentHealth = 0;
             UpdateHealthBar();                        
             if (currentHealth == 0)
             {
                 //player wins
                 FindObjectOfType<Player>().ResetState();
-                GameManager.GetInstance().SetWorldState("GruntDead", true);                
-                Loader.Load(SceneName.Overworld, Player.GetInstance().OverworldPosition());
+
+                switch (gameObject.name)
+                {
+                    case "Grunt": //rename to grunt
+                        GameManager.GetInstance().SetWorldState("GruntDead", true);
+                        Loader.Load(SceneName.Overworld, Player.GetInstance().OverworldPosition());
+                        break;
+                    case "Vampire":
+                        GameManager.GetInstance().SetWorldState("VampireDead", true);
+                        GameManager.GetInstance().SetWorldState("RedKeyObtained", true);
+                        Loader.Load(SceneName.Crypt, Player.GetInstance().OverworldPosition());
+                        break;
+                }                                                        
             }
         }
     }    
@@ -160,11 +193,6 @@ public class Enemy : MovingObject
         DisableMovement(true);
         SetDestination(new Vector3(1.5f, 4.5f, 0));
         DontDestroyOnLoad(gameObject);
-    }
-
-    public void OnDestroy()
-    {
-        Debug.Log("GG");
-    }
+    }    
 
 }

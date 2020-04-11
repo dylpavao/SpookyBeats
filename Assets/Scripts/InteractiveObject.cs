@@ -11,14 +11,15 @@ public class InteractiveObject : MonoBehaviour
     [SerializeField] private Dialogue dialogue1;
     [SerializeField] private Dialogue dialogue2;
     [SerializeField] private Dialogue dialogue3;
-    private Item item = null;
-    private bool firstTrigger = true;
-    private bool hasRequiredItem;        
+    private Item item = null;    
+    private bool hasRequiredItem;
+    private bool special;
 
 
 
     private void Start()
-    {        
+    {
+        special = false;
         hasRequiredItem = false;
         if(givesItem != ItemType.Null)
         {
@@ -42,8 +43,12 @@ public class InteractiveObject : MonoBehaviour
     }
 
     public void TriggerDialogue()
-    {        
-        if (hasRequiredItem)
+    {
+        if (special)
+        {
+            FindObjectOfType<UI_Assistant>().StartDialogue(dialogue3, UI_Assistant.DialogueType.Default);
+        }
+        else if (hasRequiredItem)
         {
             FindObjectOfType<UI_Assistant>().StartDialogue(dialogue2, UI_Assistant.DialogueType.Default);
         }
@@ -61,8 +66,13 @@ public class InteractiveObject : MonoBehaviour
         if (gameObject.name == "QueenKazoo")
         {
             GameManager.GetInstance().SetWorldState("GateOpen", true);
-        }
+        }        
     }    
+
+    public void SetSpecial(bool spec)
+    {
+        special = spec;
+    }
 
     public Item GetItem()
     {
@@ -89,7 +99,7 @@ public class InteractiveObject : MonoBehaviour
         return neededItem != ItemType.Null;
     }
 
-    public bool HasRequiredItem()
+    public bool Unlocked()
     {
         return hasRequiredItem;
     }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -17,7 +18,9 @@ public class GameManager : MonoBehaviour
         {"AppleObtained", false},
         {"BlueKeyObtained", false},
         {"YellowKeyObtained", false},
-        {"GarlicObtained", false}
+        {"RedKeyObtained", false},
+        {"GarlicObtained", false},
+        {"VampireDead", false}
     };
 
     //Called before start, after all objects are initialized
@@ -53,6 +56,7 @@ public class GameManager : MonoBehaviour
         }                
     }
 
+    //Messy way of remembering the state of the world when switching between scenes
     private void PrepareScene()
     {
         //Debug.Log(Player.GetInstance().LastPosition());
@@ -68,7 +72,8 @@ public class GameManager : MonoBehaviour
                 GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
                 foreach(GameObject enemy in enemies)
                 {
-                    Destroy(enemy);
+                    if(enemy.name == "Grunt")
+                        Destroy(enemy);
                 }                
             }
             if (worldState["AppleObtained"])
@@ -96,25 +101,57 @@ public class GameManager : MonoBehaviour
             if (worldState["CrownObtained"])
             {                
                 Destroy(GameObject.Find("Crown"));
+                GameObject.Find("QueenKazoo").GetComponent<InteractiveObject>().Unlock();
+            }
+            if (worldState["VampireDead"])
+            {
+                GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+                foreach (GameObject enemy in enemies)
+                {
+                    if (enemy.name == "Vampire")
+                        Destroy(enemy);
+                }
+                Player.GetInstance().SetOverworldPosition(new Vector3(5.5f, 2.4f, 0));
+                GameObject.Find("Coffin").GetComponent<InteractiveObject>().SetSpecial(true);
+            }
+            if (worldState["RedKeyObtained"])
+            {
+                Inventory inventory = Player.GetInstance().GetInventory();
+                inventory.RemoveItem(ItemType.Garlic);
+                inventory.AddItem(new Item { itemType = ItemType.RedKey, amount = 1, itemName = "Red Key" });
+                SetWorldState("RedKeyObtained", false); // prevent getting key twice
             }
         }
         else if(activeScene.name == "Battle")
         {            
-            if (FindObjectOfType<Enemy>().name == "Enemy")
+            if (FindObjectOfType<Enemy>().name == "Grunt")
             {
                 Dialogue battleText = new Dialogue();
-                string[] sentences = new string[9];
-                sentences[0] = "Before we fight I wanted to give you a few pointers for your first battle.";
-                sentences[1] = "We will fight to a beat, you win if you can deplete my health bar. You lose if I deplete yours.";
-                sentences[2] = "You can keep track of the beat with the sound, or the colliding bars at the bottom of the screen.";
-                sentences[3] = "Your first step is to build up energy, which is done by pressing 'W' - in time with the beat, of course.";
-                sentences[4] = "You gain 1 energy every time you press 'W', energy is used for attacking and healing.";
-                sentences[5] = "To attack press 'D', this will damage the enemy by 1 point if they are not blocking.";
-                sentences[6] = "To heal press 'A', this will recover 1 health each time it is used.";
-                sentences[7] = "Both attacking and healing cost 1 energy per use.";
-                sentences[8] = "Lastly, you can block with 'S' which protects you from damage, you do not need energy to block.";
-                sentences[8] = "That is it, the battle will begin when you are ready. Good luck!";
-                battleText.sentences = sentences;
+                ArrayList sent = new ArrayList
+                {
+                    "Before we fight I wanted to give you a few pointers for your first battle.",
+                    "We will fight to a beat, you win if you can deplete my health bar. You lose if I deplete yours.",
+                    "You can keep track of the beat with the sound, or the colliding bars at the bottom of the screen.",
+                    "Your first step is to build up energy, which is done by pressing 'W' - in time with the beat, of course.",
+                    "You gain 1 energy every time you press 'W', energy is used for attacking and healing.",
+                    "To attack press 'D', this will damage the enemy if they are not blocking.",
+                    "To heal press 'A', this will some health each time it is used.",
+                    "Both attacking and healing cost 1 energy per use.",
+                    "Lastly, you can block with 'S' which protects you from damage, you do not need energy to block.",
+                    "That is it, the battle will begin when you are ready. Good luck!"
+                };                
+                battleText.sentences = (string[])sent.ToArray(typeof(string));
+                FindObjectOfType<UI_Assistant>().StartDialogue(battleText, UI_Assistant.DialogueType.Battle);
+            }
+            else if(FindObjectOfType<Enemy>().name == "Vampire")
+            {
+                Dialogue battleText = new Dialogue();
+                ArrayList sent = new ArrayList
+                {
+                    "You want this Red Key ehhh?",
+                    "Show me what you got!"
+                };                              
+                battleText.sentences = (string[])sent.ToArray(typeof(string));
                 FindObjectOfType<UI_Assistant>().StartDialogue(battleText, UI_Assistant.DialogueType.Battle);
             }
             else
@@ -139,11 +176,5 @@ public class GameManager : MonoBehaviour
     public static GameManager GetInstance()
     {
         return instance;
-    }
-
-    private void OnDestroy()
-    {
-        //Debug.Log("GameManager Destroyed");
-    }        
-       
+    }    
 }
