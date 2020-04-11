@@ -24,15 +24,17 @@ public class Enemy : MovingObject
         currentMana = 0;
         state = null;
 
-        switch (gameObject.name)
-        {
-            case "Grunt":
-                animator = GameObject.Find("EnemyGraphics").GetComponent<Animator>();
-                break;
-            case "Vampire":
-                animator = gameObject.GetComponent<Animator>();
-                break;
-        }
+        animator = GameObject.Find("EnemyGraphics").GetComponent<Animator>();
+
+        //switch (gameObject.name)
+        //{
+        //    case "Grunt":
+        //        animator = GameObject.Find("EnemyGraphics").GetComponent<Animator>();
+        //        break;
+        //    case "Vampire":
+        //        animator = gameObject.GetComponent<Animator>();
+        //        break;
+        //}
 
         range = 3;        
         base.Start();
@@ -81,8 +83,10 @@ public class Enemy : MovingObject
         else if(SceneManager.GetActiveScene().name == "Battle")
         {
             if (firstUpdate)           
-            {
+            {                
                 transform.position = new Vector3(1.5f, 4.5f, 0);
+                currentHealth = maxHealth;
+                currentMana = 0;
                 UpdateHealthBar();
                 UpdateManaBar();
                 firstUpdate = false;
@@ -92,18 +96,33 @@ public class Enemy : MovingObject
 
     public void ChooseMove()
     {
-        if(currentHealth <= 3 && currentMana >= 1)
-        {
-            state = "Healing";
-        }
-        else if(currentMana == 0)
+        Debug.Log(currentMana);
+        if (currentMana == 0)
         {
             state = "Charging";
         }
+        else if(currentHealth <= 5 && currentMana >= 1)
+        {
+            int a = Random.Range(0, 2);
+            if (a == 0)
+                state = "Healing";
+            else
+                state = "Attacking";
+        }        
+        else if(currentHealth == maxHealth)
+        {
+            int a = Random.Range(0, 3);
+            if (a == 0)
+                state = "Attacking";
+            else if (a == 1)
+                state = "Blocking";
+            else
+                state = "Charging";
+        }
         else
         {
-            state = "Attacking";
-        }                            
+            state = states[Random.Range(0, 4)];
+        }
     }
 
     public void EnactMove()
@@ -111,28 +130,30 @@ public class Enemy : MovingObject
         //create enums for states
         if (state == "Attacking" && currentMana > 0)
         {
-            //animator.SetBool(state, true);
+            animator.SetBool(state, true);
             currentMana--;
             UpdateManaBar();
             Player.GetInstance().TakeDamage(Random.Range(0, 2)+1);
         }
         else if (state == "Charging" && currentMana < maxMana)
         {
-            //animator.SetBool(state, true);
+            animator.SetBool(state, true);
             currentMana++;
             UpdateManaBar();
         }
         else if (state == "Healing" && currentMana > 0 && currentHealth < maxHealth)
         {
-            //animator.SetBool(state, true);
+            animator.SetBool(state, true);
             currentMana--;
-            currentHealth++;
+            currentHealth += Random.Range(0, 2) + 1;
+            if (currentHealth > maxHealth)
+                currentHealth = maxHealth;
             UpdateManaBar();
             UpdateHealthBar();
         }
         else if (state == "Blocking")
         {
-            //animator.SetBool(state, true);
+            animator.SetBool(state, true);
         }        
     }
 
@@ -151,18 +172,23 @@ public class Enemy : MovingObject
     public void ResetState()
     {
         state = null;
-        //animator.SetBool("Charging", false);
-        //animator.SetBool("Healing", false);
-        //animator.SetBool("Attacking", false);
-        //animator.SetBool("Blocking", false);
+        animator.SetBool("Charging", false);
+        animator.SetBool("Healing", false);
+        animator.SetBool("Attacking", false);
+        animator.SetBool("Blocking", false);
         //animator.SetBool("Damaged", false);
+    }
+
+    public void ResetFirstUpdate()
+    {
+        firstUpdate = true;
     }
 
     public void TakeDamage(int dmg)
     {
         if (state != "Blocking")
         {            
-            //animator.SetBool("Damaged", true);            
+            animator.SetBool("Damaged", true);            
             currentHealth -= dmg;
             if (currentHealth < 0)
                 currentHealth = 0;
@@ -193,6 +219,5 @@ public class Enemy : MovingObject
         DisableMovement(true);
         SetDestination(new Vector3(1.5f, 4.5f, 0));
         DontDestroyOnLoad(gameObject);
-    }    
-
+    }        
 }

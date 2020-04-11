@@ -94,6 +94,9 @@ public class UI_Assistant : MonoBehaviour //make SINGLETON
                     InteractiveObject interObjScript = Player.GetInstance().GetInteractiveObjectScript();
                     inventory = Player.GetInstance().GetInventory();
 
+                    //Switch scene after game over message text
+
+
                     if (Player.GetInstance().GetInteractiveObject().name == "Coffin" && interObjScript.Unlocked()) //Vampire Battle
                     {
                         Player.GetInstance().Battle(GameObject.Find("Vampire").GetComponent<Enemy>());

@@ -42,10 +42,15 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (inMainMenu && Input.GetKeyDown(KeyCode.Return)) 
-        {            
+        if (inMainMenu && Input.GetKeyDown(KeyCode.Return))
+        {
             Loader.Load(SceneName.Overworld, new Vector3(-7.5f, -2.5f, 0));
             inMainMenu = false;
+        }
+        else if (SceneManager.GetActiveScene().name == "GameOver" && Input.GetKeyDown(KeyCode.Space))
+        {            
+            Player.GetInstance().Battle(Player.GetInstance().GetCurrentEnemy());
+            //Loader.Load(SceneName.Overworld, new Vector3(-7.5f, -2.5f, 0));
         }
 
         if(activeScene != SceneManager.GetActiveScene())
@@ -158,7 +163,7 @@ public class GameManager : MonoBehaviour
             {
                 FindObjectOfType<BeatKeeper>().SetRunning(true);
             }
-        }
+        }       
     }    
 
     public void SetWorldState(string key, bool state)

@@ -18,6 +18,7 @@ public class Player : MovingObject
     private InteractiveObject currentInterObjScript;
     private Vector3 overworldPosition;
     private static Player instance;
+    private Enemy currentEnemy;
 
     // Start is called before the first frame update
     protected override void Start()
@@ -49,7 +50,7 @@ public class Player : MovingObject
         if (SceneManager.GetActiveScene().name == "Battle") // Battle Controls
         {            
             if (firstUpdate)
-            {
+            {                
                 currentHealth = 10;
                 currentMana = 0;
                 UpdateHealthBar();
@@ -83,12 +84,11 @@ public class Player : MovingObject
                     EnactMove();
                 }                    
             }           
-
         }
         else // in non battle state
-        {                     
-
+        {
             // Get directional input
+            firstUpdate = true;
             int horizontal = 0;
             int vertical = 0;
             horizontal = (int)Input.GetAxisRaw("Horizontal");
@@ -96,7 +96,6 @@ public class Player : MovingObject
 
             if(vertical != 0)            
                 horizontal = 0;
-
 
             if ((horizontal != 0 || vertical != 0) && IsMoveable()) //character control [W,A,S,D]
             {                               
@@ -192,7 +191,9 @@ public class Player : MovingObject
         {            
             animator.SetBool(state, true);
             currentMana--;
-            currentHealth++;
+            currentHealth += Random.Range(0, 2) + 1;
+            if (currentHealth > maxHealth)
+                currentHealth = maxHealth;
             UpdateManaBar();
             UpdateHealthBar();
         }
@@ -227,6 +228,7 @@ public class Player : MovingObject
             {
                 //game over                
                 DisableMovement(true);
+                currentEnemy.ResetFirstUpdate();
                 Loader.Load(SceneName.GameOver, new Vector3(100,100,-100));
             }
         }
@@ -260,8 +262,11 @@ public class Player : MovingObject
 
     public void Battle(Enemy enemy)
     {        
+        currentEnemy = enemy;
         enemy.PrepareForBattle();
         DisableMovement(true);
+        ResetState();
+        currentEnemy.ResetState();
         SetDirection(1, 0);
         overworldPosition = LastPosition();
         Loader.Load(SceneName.Battle, new Vector3(-1.5f, 4.5f, 0));
@@ -297,6 +302,11 @@ public class Player : MovingObject
         animator.SetBool("Attacking", false);
         animator.SetBool("Blocking", false);
         //animator.SetBool("Damaged", false);
+    }
+
+    public Enemy GetCurrentEnemy()
+    {
+        return currentEnemy;
     }
 
     public static Player GetInstance()
