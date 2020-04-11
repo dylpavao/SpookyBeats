@@ -2146,7 +2146,7 @@ GameObject:
   - component: {fileID: 830870296}
   - component: {fileID: 830870295}
   - component: {fileID: 830870294}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: EnemyGraphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
