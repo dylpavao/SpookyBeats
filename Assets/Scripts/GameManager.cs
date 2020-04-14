@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
-{    
+{
     public static GameManager instance;
     public bool inMainMenu;
-    public Sprite openGate;    
+    public Sprite openGate;
     private Scene activeScene;
+    private int mainMenuCursor;
+    private GameObject videoScreen;
 
     IDictionary<string, bool> worldState = new Dictionary<string, bool>()
     {
@@ -31,55 +34,95 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
             return;
-        }        
+        }
 
         instance = this;
-        inMainMenu = false;
         DontDestroyOnLoad(gameObject);
         Time.timeScale = 1f;
 
-    }    
+    }
 
     private void Update()
     {
-        if (inMainMenu && Input.GetKeyDown(KeyCode.Return))
+        if (inMainMenu)
         {
-            Loader.Load(SceneName.Overworld, new Vector3(-7.5f, -2.5f, 0));
-            inMainMenu = false;
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                if (mainMenuCursor == 0) // start game
+                {                                       
+                    FindObjectOfType<AudioManager>().StopPlaying("MenuSong");
+                    VideoManager videoManager = FindObjectOfType<VideoManager>();
+                    //Play Cutscene
+                    videoManager.PrepareVideo();                    
+                }
+                else // quit
+                {
+                    //GameObject.Find("Video Player").GetComponent<VideoManager>().PrepareVideo();
+                    Application.Quit();
+                }
+
+            }
+            if (Input.GetKeyDown(KeyCode.W) && mainMenuCursor == 1)
+            {
+                FindObjectOfType<AudioManager>().Play("Click");
+                GameObject.Find("StartGame").GetComponent<Text>().text = "> Start Game";
+                GameObject.Find("Quit").GetComponent<Text>().text = "  Quit";
+                mainMenuCursor = 0;
+            }
+            if (Input.GetKeyDown(KeyCode.S) && mainMenuCursor == 0)
+            {
+                FindObjectOfType<AudioManager>().Play("Click");
+                GameObject.Find("StartGame").GetComponent<Text>().text = "  Start Game";
+                GameObject.Find("Quit").GetComponent<Text>().text = "> Quit";
+                mainMenuCursor = 1;
+            }
         }
         else if (SceneManager.GetActiveScene().name == "GameOver" && Input.GetKeyDown(KeyCode.Space))
-        {            
+        {
             Player.GetInstance().Battle(Player.GetInstance().GetCurrentEnemy());
-            //Loader.Load(SceneName.Overworld, new Vector3(-7.5f, -2.5f, 0));
         }
 
-        if(activeScene != SceneManager.GetActiveScene())
+        if (activeScene != SceneManager.GetActiveScene())
         {
-            //Debug.Log("Scene change");
             activeScene = SceneManager.GetActiveScene();
             PrepareScene();
-        }                
+        }
+    }
+
+    public void SetVideoScreenActive(bool isActive)
+    {
+        videoScreen.SetActive(isActive);
     }
 
     //Messy way of remembering the state of the world when switching between scenes
     private void PrepareScene()
     {
-        //Debug.Log(Player.GetInstance().LastPosition());
-        if (activeScene.name == "Overworld")
+        if (activeScene.name == "MainMenu")
         {
+            videoScreen = GameObject.Find("VideoScreen");
+            videoScreen.SetActive(false);
+            FindObjectOfType<AudioManager>().Play("MenuSong");
+            ResetGameState();
+            inMainMenu = true;
+            mainMenuCursor = 0;
+        }
+        else if (activeScene.name == "Overworld")
+        {
+            inMainMenu = false;
+            FindObjectOfType<AudioManager>().Play("OverworldSong");
             if (worldState["GateOpen"])
             {
                 GameObject.Find("GraveyardGate").GetComponent<SpriteRenderer>().sprite = openGate;
                 GameObject.Find("GraveyardGate").GetComponent<BoxCollider2D>().enabled = false;
             }
             if (worldState["GruntDead"])
-            {                
+            {
                 GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-                foreach(GameObject enemy in enemies)
+                foreach (GameObject enemy in enemies)
                 {
-                    if(enemy.name == "Grunt")
+                    if (enemy.name == "Grunt")
                         Destroy(enemy);
-                }                
+                }
             }
             if (worldState["AppleObtained"])
             {
@@ -92,19 +135,20 @@ public class GameManager : MonoBehaviour
             if (worldState["YellowKeyObtained"])
             {
                 Destroy(GameObject.Find("YellowKey"));
-            }           
+            }
         }
-        else if(activeScene.name == "Studio")
+        else if (activeScene.name == "Studio")
         {
             if (worldState["GarlicObtained"])
             {
                 Destroy(GameObject.Find("Garlic"));
             }
         }
-        else if(activeScene.name == "Crypt")
-        {            
+        else if (activeScene.name == "Crypt")
+        {
+            FindObjectOfType<AudioManager>().Play("Crypt");
             if (worldState["CrownObtained"])
-            {                
+            {
                 Destroy(GameObject.Find("Crown"));
                 GameObject.Find("QueenKazoo").GetComponent<InteractiveObject>().Unlock();
             }
@@ -116,7 +160,7 @@ public class GameManager : MonoBehaviour
                     if (enemy.name == "Vampire")
                         Destroy(enemy);
                 }
-                Player.GetInstance().SetOverworldPosition(new Vector3(5.5f, 2.4f, 0));
+                Player.GetInstance().SetOverworldPosition(new Vector3(5.5f, 2.5f, 0));
                 GameObject.Find("Coffin").GetComponent<InteractiveObject>().SetSpecial(true);
             }
             if (worldState["RedKeyObtained"])
@@ -127,8 +171,8 @@ public class GameManager : MonoBehaviour
                 SetWorldState("RedKeyObtained", false); // prevent getting key twice
             }
         }
-        else if(activeScene.name == "Battle")
-        {            
+        else if (activeScene.name == "Battle")
+        {
             if (FindObjectOfType<Enemy>().name == "Grunt")
             {
                 Dialogue battleText = new Dialogue();
@@ -144,18 +188,18 @@ public class GameManager : MonoBehaviour
                     "Both attacking and healing cost 1 energy per use.",
                     "Lastly, you can block with 'S' which protects you from damage, you do not need energy to block.",
                     "That is it, the battle will begin when you are ready. Good luck!"
-                };                
+                };
                 battleText.sentences = (string[])sent.ToArray(typeof(string));
                 FindObjectOfType<UI_Assistant>().StartDialogue(battleText, UI_Assistant.DialogueType.Battle);
             }
-            else if(FindObjectOfType<Enemy>().name == "Vampire")
+            else if (FindObjectOfType<Enemy>().name == "Vampire")
             {
                 Dialogue battleText = new Dialogue();
                 ArrayList sent = new ArrayList
                 {
                     "You want this Red Key ehhh?",
                     "Show me what you got!"
-                };                              
+                };
                 battleText.sentences = (string[])sent.ToArray(typeof(string));
                 FindObjectOfType<UI_Assistant>().StartDialogue(battleText, UI_Assistant.DialogueType.Battle);
             }
@@ -163,8 +207,31 @@ public class GameManager : MonoBehaviour
             {
                 FindObjectOfType<BeatKeeper>().SetRunning(true);
             }
-        }       
-    }    
+        }
+        else if (activeScene.name == "GameOver")
+        {
+            FindObjectOfType<AudioManager>().Play("GameOver");
+        }
+        else if (activeScene.name == "Credits")
+        {
+            videoScreen = GameObject.Find("VideoScreen");
+            FindObjectOfType<VideoManager>().PrepareVideo();
+        }
+    }
+
+    private void ResetGameState()
+    {        
+        Player.GetInstance().ClearInventory();        
+        worldState["GateOpen"] = false;
+        worldState["CrownObtained"] = false;
+        worldState["GruntDead"] = false;
+        worldState["AppleObtained"] = false;
+        worldState["BlueKeyObtained"] = false;
+        worldState["YellowKeyObtained"] = false;
+        worldState["RedKeyObtained"] = false;
+        worldState["GarlicObtained"] = false;
+        worldState["VampireDead"] = false;                 
+    }
 
     public void SetWorldState(string key, bool state)
     {
@@ -178,6 +245,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public bool InMainMenu()
+    {
+        return inMainMenu;
+    }
     public static GameManager GetInstance()
     {
         return instance;

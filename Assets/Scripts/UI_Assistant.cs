@@ -54,9 +54,8 @@ public class UI_Assistant : MonoBehaviour //make SINGLETON
         if (Input.GetKeyDown(KeyCode.Tab) && !inDialogue && !Player.GetInstance().InBattle())
         {
             ToggleMenu();   
-        }
-
-        if (inMenu && !inDialogue)
+        }       
+        else if (inMenu && !inDialogue)
         {
             Player.GetInstance().SetMoveable(false);
             if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A))
@@ -92,14 +91,15 @@ public class UI_Assistant : MonoBehaviour //make SINGLETON
                 if (endOfDialogue && Player.GetInstance().HasInteractiveObject()) //End of Dialogue
                 {
                     InteractiveObject interObjScript = Player.GetInstance().GetInteractiveObjectScript();
-                    inventory = Player.GetInstance().GetInventory();
-
-                    //Switch scene after game over message text
-
+                    inventory = Player.GetInstance().GetInventory();                
 
                     if (Player.GetInstance().GetInteractiveObject().name == "Coffin" && interObjScript.Unlocked()) //Vampire Battle
                     {
                         Player.GetInstance().Battle(GameObject.Find("Vampire").GetComponent<Enemy>());
+                    }
+                    else if(Player.GetInstance().GetInteractiveObject().name == "Cerberus" && interObjScript.Unlocked())
+                    {
+                        Loader.Load(SceneName.Credits, new Vector3(-70.5f, -20.5f, 0));
                     }
                     else
                     {   
@@ -133,6 +133,10 @@ public class UI_Assistant : MonoBehaviour //make SINGLETON
                         Dialogue d = new Dialogue { sentences = test };
                         StartDialogue(d, DialogueType.Default);
                     }
+                }
+                else if(menuText[menuCursor] == "Quit")
+                {
+                    Loader.Load(SceneName.MainMenu, new Vector3(-7.5f, -2.5f, 0));  
                 }
             }            
             else if (Player.GetInstance().GetInteractiveObject() != null) //Interact With Game Object, starts Dialogue
@@ -189,6 +193,8 @@ public class UI_Assistant : MonoBehaviour //make SINGLETON
         {
             string sentence = sentences.Dequeue();
             currentSentence = sentence;
+            if (sentence == "Doug obtained the Mega Key!")
+                FindObjectOfType<AudioManager>().Play("ObtainItem");
             StopAllCoroutines();
             StartCoroutine(TypeSentence(sentence));
             return false;

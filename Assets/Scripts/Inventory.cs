@@ -53,7 +53,7 @@ public class Inventory
             message.Add("It looks as if they are becoming one.");
             message.Add("Doug obtained the Mega Key!");
             message.Add("Doug put the Mega Key in his inventory.");
-            itemList.Add(new Item { itemType = ItemType.MegaKey, amount = 1, itemName = "Mega Key" });
+            itemList.Add(new Item { itemType = ItemType.MegaKey, amount = 1, itemName = "Mega Key" });            
         }
            
         Dialogue itemDlog = new Dialogue { sentences = (string[])message.ToArray(typeof(string)) };

@@ -314,6 +314,11 @@ public class Player : MovingObject
         return instance;
     }
 
+    public void ClearInventory()
+    {
+        inventory = new Inventory();
+    }
+
     public Inventory GetInventory()
     {
         return inventory;

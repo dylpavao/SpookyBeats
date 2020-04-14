@@ -25,7 +25,14 @@ public class BeatKeeper : MonoBehaviour
     {
         Time.timeScale = 1f;
 
-        bpm = 90f;
+        enemy = FindObjectOfType<Enemy>();
+        player = FindObjectOfType<Player>();
+
+        if (enemy.name == "Grunt")
+            bpm = 90f;
+        else if (enemy.name == "Vampire")
+            bpm = 120f;
+
         timeBetweenBeats = 60f / bpm;
         gracePeriod = timeBetweenBeats / 2f;
         timeRunning = gracePeriod;
@@ -46,9 +53,7 @@ public class BeatKeeper : MonoBehaviour
             SpawnSetOfBeatBars(x1, x2);
             x1 -= 2;
             x2 += 2;
-        }
-        enemy = FindObjectOfType<Enemy>();
-        player = FindObjectOfType<Player>();
+        }        
     }
 
     // Update is called once per frame
@@ -69,10 +74,16 @@ public class BeatKeeper : MonoBehaviour
             }
             else if (!playedBeat && timeRunning >= timeBetweenBeats) // play beat sound & spawn new beats offscreen
             {
-                if (!FindObjectOfType<AudioManager>().SongPlaying("Song"))
+                if (enemy.name == "Grunt")
                 {
-                    FindObjectOfType<AudioManager>().Play("Song");                    
-                }                
+                    if (!FindObjectOfType<AudioManager>().SongPlaying("BattleSong1"))
+                        FindObjectOfType<AudioManager>().Play("BattleSong1");
+                }                    
+                else if (enemy.name == "Vampire")
+                {
+                    if (!FindObjectOfType<AudioManager>().SongPlaying("BattleSong2"))
+                        FindObjectOfType<AudioManager>().Play("BattleSong2");
+                }            
                 DestroyBeats(0f);
                 SpawnSetOfBeatBars(-12, 12); // load cartridge
                 //FindObjectOfType<AudioManager>().Play("Beat");

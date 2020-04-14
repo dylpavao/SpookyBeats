@@ -74,8 +74,33 @@ MonoBehaviour:
     volume: 0.25
     pitch: 1
     source: {fileID: 0}
-  - name: Song
+  - name: BattleSong1
     clip: {fileID: 8300000, guid: 7ca9789583c8e2246a4aec64cb02a72d, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: MenuSong
+    clip: {fileID: 8300000, guid: 2a722a36699386e46969c9a375164098, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: OverworldSong
+    clip: {fileID: 8300000, guid: 2409ad70a505fbf4280aef91c2626498, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: GameOver
+    clip: {fileID: 8300000, guid: aeef0f3d99904da498154de6b9575819, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Crypt
+    clip: {fileID: 8300000, guid: ff906e46f47985744bd578994b2c0571, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: BattleSong2
+    clip: {fileID: 8300000, guid: a5f041caea495fa409fa170d2d70265e, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
